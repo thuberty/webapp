@@ -2,33 +2,37 @@ package demo;
 
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketFactory;
 
 
-/* ------------------------------------------------------------ */
-/** Example WebSocket Chat Servlet.
- * <p>This servlet demonstrates the Jetty server side WebSocket APIs by
- * implementing a (very) simple chat room.   All connections received with the "chat"
- * sub protocol name are added to the _members set. All other connections are rejected.
- * Any message received on any connection is assumed to a chat message and 
- * is echoed verbatim to all connections in the _member set.
+/**
+ * Servlet that reacts to HTML5 websocket connections.
+ * When a new websocket connection is established, the members data structure
+ * is updated with a chat member and its socket. 
  */
 public class WebSocketChatServlet extends HttpServlet 
 {
-    private WebSocketFactory _wsFactory;
-    private final Set<ChatWebSocket> _members = new CopyOnWriteArraySet<ChatWebSocket>();
+    // used to bringup web socket functionality
+	private WebSocketFactory _wsFactory;
+	
+	// holds a hashmap of all chat members currently active
+    private final Map<String,ChatMember> members = new ConcurrentHashMap<String,ChatMember>();
     
-    /* ------------------------------------------------------------ */
-    /** Initialise the servlet by creating the WebSocketFactory.
+    /** 
+     * Initialize the servlet by creating the WebSocketFactory.
      */
     @Override
     public void init() throws ServletException
@@ -44,11 +48,28 @@ public class WebSocketChatServlet extends HttpServlet
             
             public WebSocket doWebSocketConnect(HttpServletRequest request, String protocol)
             {
-                // Return new ChatWebSocket for chat protocol connections
+            	
+                // only consider connections that use "chat" protocol
                 if ("chat".equals(protocol)) {
-                	System.out.println(request.getSession());
-                    return new ChatWebSocket();
+                	String sessionId = request.getSession().getId();
+                	ChatWebSocket memberSocket = new ChatWebSocket();
+                	
+                	// check if ChatMember already has a session
+                	if (members.containsKey(sessionId)) {
+                		// member has session, add socket to member
+                		ChatMember member = members.get(sessionId);
+                		memberSocket.setMember(member);
+                	}
+                	else {
+                		// member does not have session, create member and socket
+                		ChatMember member = new ChatMember(request.getSession(), members);
+                		memberSocket.setMember(member);
+                		members.put(request.getSession().getId(), member);
+                	}
+                	
+                    return memberSocket;
                 }
+                
                 return null;
             }
         });
@@ -56,8 +77,8 @@ public class WebSocketChatServlet extends HttpServlet
         _wsFactory.setMaxIdleTime(60000);
     }
     
-    /* ------------------------------------------------------------ */
-    /** Handle the handshake GET request.
+    /** 
+     * Handle the handshake GET request.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException
@@ -70,55 +91,5 @@ public class WebSocketChatServlet extends HttpServlet
     }
 
     
-    /* ------------------------------------------------------------ */
-    /** Chat WebSocket Example.
-     * <p>This class implements the {@link OnTextMessage} interface so that
-     * it can handle the call backs when websocket messages are received on
-     * a connection.
-     * </p>
-     */
-    private class ChatWebSocket implements WebSocket.OnTextMessage
-    {
-        volatile Connection _connection;
 
-        /* ------------------------------------------------------------ */
-        /** Callback for when a WebSocket connection is opened.
-         * <p>Remember the passed {@link Connection} object for later sending and 
-         * add this WebSocket to the members set.
-         */
-        public void onOpen(Connection connection)
-        {
-            _connection=connection;
-            _members.add(this);
-        }
-
-        /* ------------------------------------------------------------ */
-        /** Callback for when a WebSocket connection is closed.
-         * <p>Remove this WebSocket from the members set.
-         */
-        public void onClose(int closeCode, String message)
-        {
-            _members.remove(this);
-        }
-
-        /* ------------------------------------------------------------ */
-        /** Callback for when a WebSocket message is received.
-         * <p>Send the message to all connections in the members set.
-         */
-        public void onMessage(String data)
-        {
-            for (ChatWebSocket member : _members)
-            {
-            	System.out.println(member);
-                try
-                {
-                    member._connection.sendMessage(data);
-                }
-                catch(IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }

@@ -1,3 +1,7 @@
+body {
+	background:#e0e0e0;
+}
+
 div {
 	border: 0px solid black;
 }
@@ -5,30 +9,29 @@ div {
 div#chat {
 	clear: both;
 	width: 40em;
-	height: 20ex;
+	height: 40em;
 	overflow: auto;
-	background-color: #f0f0f0;
+	background-color: #fff;
 	padding: 4px;
-	border: 1px solid black;
+	margin:0 auto;
 }
 
 div#input {
 	clear: both;
 	width: 40em;
 	padding: 4px;
-	background-color: #e0e0e0;
-	border: 1px solid black;
-	border-top: 0px
+	background-color: #fff;
+	margin:0 auto;
 }
 
 input#phrase {
 	width: 30em;
-	background-color: #e0f0f0;
 }
 
 input#username {
 	width: 14em;
-	background-color: #e0f0f0;
+	background-color: #fff;
+	height:4em;
 }
 
 div.hidden {

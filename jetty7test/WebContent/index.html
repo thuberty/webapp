@@ -1,22 +1,24 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
-    <title>WebSocket Chat Example</title>
-    <script type='text/javascript' src="chat.js"></script>
-    <link rel="stylesheet" type="text/css" href="chat.css" />
+  	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>ChatBot</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+    <script type="text/javascript" src="http://jquery-json.googlecode.com/files/jquery.json-2.3.js"></script>
+    <script type='text/javascript' src="controller.js"></script>
+    <script type='text/javascript' src="actions.js"></script>
+    <script type='text/javascript' src="view.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
     <div id='chat'></div>
 
     <div id='input'>
-      <div id='join' >
-        Username:&nbsp;<input id='username' type='text'/><input id='joinB' class='button' type='submit' name='join' value='Join'/>
-      </div>
       <div id='joined' class='hidden'>
         Chat:&nbsp;<input id='phrase' type='text'/>
         <input id='sendB' class='button' type='submit' name='join' value='Send'/>
       </div>
+      
 
     </div>
-    <script type='text/javascript'>init();</script>
   </body>
 </html>
