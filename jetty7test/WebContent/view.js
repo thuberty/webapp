@@ -1,16 +1,40 @@
 // view layer
 
-function renderMessage(msg) {
+function renderMessageMe(msg) {
+	var output = '<div class="item incoming">';
+	output += '<span class="start-quote me">&#8220;</span>' + msg.body + '<span class="end-quote me">&#8221;</span>';
+	output += '<span class="from">-' + msg.sender + '</span>';
+	output += '<br/></div>';
+	
 	var chat = $('#chat');
-	var spanFrom = document.createElement('span');
-	spanFrom.className = 'from';
-	spanFrom.innerHTML = msg.sender + ':&nbsp;';
-	var spanText = document.createElement('span');
-	spanText.className = 'text';
-	spanText.innerHTML = msg.body;
-	var lineBreak = document.createElement('br');
-	chat.append(spanFrom);
-	chat.append(spanText);
-	chat.append(lineBreak);
-	chat.scrollTop = chat.scrollHeight - chat.clientHeight;
+	chat.append(output);
+	chat.children('.incoming').fadeIn();
+	chat.children.removeClass('incoming');
+	chat.children('.incoming').hide();
+}
+
+function renderMessagePartner(msg) {
+	var output = '<div class="item incoming">';
+	output += '<span class="start-quote partner">&#8220;</span>' + msg.body + '<span class="end-quote partner">&#8221;</span>';
+	output += '<span class="from">-' + msg.sender + '</span>';
+	output += '<br/></div>';
+	
+	var chat = $('#chat');
+	chat.append(output);
+	chat.children('.incoming').fadeIn();
+	chat.children.removeClass('incoming');
+	chat.children('.incoming').hide();
+}
+
+function renderMessageSystem(msg) {
+	var output = '<div class="item incoming">';
+	output += '<span class="start-quote system">&#8220;</span>' + msg.body + '<span class="end-quote system">&#8221;</span>';
+	output += '<span class="from">-chatbotfriend</span>';
+	output += '<br/></div>';
+	
+	var chat = $('#chat');
+	chat.append(output);
+	chat.children('.incoming').fadeIn();
+	chat.children.removeClass('incoming');
+	chat.children('.incoming').hide();
 }

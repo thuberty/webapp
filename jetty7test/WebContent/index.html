@@ -8,17 +8,20 @@
     <script type='text/javascript' src="actions.js"></script>
     <script type='text/javascript' src="view.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis' rel='stylesheet' type='text/css'>
   </head>
   <body>
-    <div id='chat'></div>
-
-    <div id='input'>
-      <div id='joined' class='hidden'>
-        Chat:&nbsp;<input id='phrase' type='text'/>
-        <input id='sendB' class='button' type='submit' name='join' value='Send'/>
-      </div>
-      
-
-    </div>
+	    <div id="top"><div class="center"><h1>▊Chat<br/>▊Bot<br/>▊Friend<br/></h1></div></div>
+	    <div id="chatarea">
+		    <div id='chat'></div>
+		</div>
+		<div id="bottom"><div class="center">
+				    <div id='input'>
+		      <div id='joined' class='hidden'>
+		        <span id="prompt">Chat</span><input id='phrase' type='text'/>
+		        <input id='sendB' class='button' type='submit' name='join' value='Send'/>
+		      </div>
+		    </div></div>
+		    </div>
   </body>
 </html>

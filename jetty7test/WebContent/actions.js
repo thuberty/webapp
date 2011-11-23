@@ -2,25 +2,25 @@
 
 function loginUsernameAction(msg) {
 	$('#phrase').prop('type', 'text');
-	renderMessage(msg);
+	renderMessageSystem(msg);
 }
 
 function loginPasswordAction(msg) {
 	$('#phrase').prop('type', 'password');
-	renderMessage(msg);
+	renderMessageSystem(msg);
 }
 
 function echoAction(msg) {
 	$('#phrase').prop('type', 'text');
-	renderMessage(msg);
+	renderMessageMe(msg);
 }
 
 function chatAction(msg) {
 	$('#phrase').prop('type', 'text');
-	renderMessage(msg);
+	renderMessagePartner(msg);
 }
 
 function waitingAction(msg) {
 	$('#phrase').prop('type', 'text');
-	renderMessage(msg);
+	renderMessageSystem(msg);
 }

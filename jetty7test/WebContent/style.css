@@ -1,31 +1,39 @@
 body {
-	background:#e0e0e0;
+	background:#fff;
+	padding:0;
+	margin:0;
+	color:#556270;
+	font-family: 'Terminal Dosis', sans-serif;
 }
 
-div {
-	border: 0px solid black;
+h1 {
+	font-size:24px;
 }
 
 div#chat {
 	clear: both;
-	width: 40em;
-	height: 40em;
-	overflow: auto;
+	overflow: hidden;
 	background-color: #fff;
-	padding: 4px;
-	margin:0 auto;
+	margin:12px;
 }
 
 div#input {
 	clear: both;
-	width: 40em;
-	padding: 4px;
-	background-color: #fff;
-	margin:0 auto;
+	padding:10px;
+	color:#556270;
 }
 
 input#phrase {
-	width: 30em;
+	width: 640px;
+	font-size:24px;
+	border:3px solid #556270;
+	padding:4px;
+	outline:none;
+	color:#556270;
+	display:block;
+	float:left;
+	border-radius:6px;
+	font-family: 'Terminal Dosis', sans-serif;
 }
 
 input#username {
@@ -35,7 +43,7 @@ input#username {
 }
 
 div.hidden {
-	display: none;
+/* 	display: none; */
 }
 
 span.from {
@@ -44,4 +52,83 @@ span.from {
 
 span.alert {
 	font-style: italic;
+}
+
+div#top {
+	height:120px;
+	display:block;
+	background:#f5f5f5;
+	overflow:hidden;
+}
+
+div#bottom {
+	height:120px;
+	display:block;
+	background:#f5f5f5;
+	position:fixed;
+	width:100%;
+	bottom:0;
+}
+
+div#chatarea {
+	width:960px;
+	height:600px;
+	margin:0 auto;
+	line-height:40px;
+}
+
+span#prompt {
+	width:100px;
+	display:block;
+	float:left;
+	padding:8px;
+	font-size:24px;
+}
+
+div.center {
+	width:960px;
+	margin:0 auto;
+}
+
+input#sendB {
+	border:0;
+	padding:4px;
+	border-radius:6px;
+	font-size:26px;
+	background:#4ECDC4;
+	color:#556270;
+	display:block;
+	float:left;
+	margin-left:30px;
+	margin-top:3px;
+	width:100px;
+	font-family: 'Terminal Dosis', sans-serif;
+}
+
+span.start-quote {
+	font-size:48px;
+	padding:10px;
+	font-weight:bold;
+}
+
+span.end-quote {
+	font-size:48px;
+	padding:10px;
+	font-weight:bold;
+}
+
+.me {
+	color:#C7F464;
+}
+
+.system {
+	color:#FF6B6B;
+}
+
+.partner {
+	color:#4ECDC4;
+}
+
+.incoming {
+	display:none;
 }
