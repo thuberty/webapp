@@ -96,5 +96,9 @@ $(document).ready(function() {
 	$('#phrase').bind('keyup', function(ev) {   var keyc=getKeyCode(ev); if (keyc==13 || keyc==10) { room.chat($F('#phrase')); $('#phrase').val(""); return false; } return true; });
 	$('#sendB').click(function(event) { room.chat($F('#phrase')); $('#phrase').value=''; return false; });
 	room.join('name');
+	$('#chatarea').height($(window).height() - 240);
+	$(window).resize(function() {
+		  $('#chatarea').height($(window).height() - 240);
+	});
 });
       

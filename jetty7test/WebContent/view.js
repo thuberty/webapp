@@ -9,8 +9,9 @@ function renderMessageMe(msg) {
 	var chat = $('#chat');
 	chat.append(output);
 	chat.children('.incoming').fadeIn();
-	chat.children.removeClass('incoming');
+	chat.children('.incoming').removeClass('incoming');
 	chat.children('.incoming').hide();
+	$("#chatarea").prop({ scrollTop: $("#chatarea").prop("scrollHeight") });
 }
 
 function renderMessagePartner(msg) {
@@ -22,8 +23,9 @@ function renderMessagePartner(msg) {
 	var chat = $('#chat');
 	chat.append(output);
 	chat.children('.incoming').fadeIn();
-	chat.children.removeClass('incoming');
+	chat.children('.incoming').removeClass('incoming');
 	chat.children('.incoming').hide();
+	$("#chatarea").prop({ scrollTop: $("#chatarea").prop("scrollHeight") });
 }
 
 function renderMessageSystem(msg) {
@@ -35,6 +37,7 @@ function renderMessageSystem(msg) {
 	var chat = $('#chat');
 	chat.append(output);
 	chat.children('.incoming').fadeIn();
-	chat.children.removeClass('incoming');
+	chat.children('.incoming').removeClass('incoming');
 	chat.children('.incoming').hide();
+	$("#chatarea").prop({ scrollTop: $("#chatarea").prop("scrollHeight") });
 }
