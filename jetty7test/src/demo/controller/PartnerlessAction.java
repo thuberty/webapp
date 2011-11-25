@@ -1,4 +1,5 @@
-package demo;
+package demo.controller;
+
 
 /**
  * Action taken when a member has no chat partner.
@@ -11,11 +12,10 @@ public class PartnerlessAction implements Action {
 		Message reply = new Message();
 		
 		reply.setSender("bob");
-		reply.setBody("vote on <span class=\"preferable\" id=\"5\">this</span>");
+		reply.setBody("hello");
 		reply.setHeader("waiting");
 		
-		
-		System.out.println("partnerless action 1");
+		System.out.println("partnerless action");
 		
 		// send reply to user
 		if (reply != null) {

@@ -1,4 +1,5 @@
-package demo;
+package demo.controller;
+
 
 /**
  * Main chat action when a member is chatting with a partner.
@@ -18,13 +19,13 @@ public class ChatAction implements Action {
 		
 		// echo message back to user
 		echo.setBody(message.getBody());
-		echo.setSender(user.getName());
+		echo.setSender(user.getUsername());
 		echo.setHeader("echo");
 		user.sendMessage(echo);
 		
 		// forward message to partner
 		partnerMessage.setBody(message.getBody());
-		partnerMessage.setSender(user.getName());
+		partnerMessage.setSender(user.getUsername());
 		partnerMessage.setHeader("chat");
 		user.getPartner().sendMessage(partnerMessage);
 	}

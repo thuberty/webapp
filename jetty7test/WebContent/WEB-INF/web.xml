@@ -13,7 +13,27 @@
     <description></description>
     <display-name>WebSocketChatServlet</display-name>
     <servlet-name>WebSocketChatServlet</servlet-name>
-    <servlet-class>demo.WebSocketChatServlet</servlet-class>
+    <servlet-class>demo.controller.WebSocketTrafficController</servlet-class>
+    <init-param>
+    	<param-name>jdbcDriverName</param-name>
+    	<param-value>org.postgresql.Driver</param-value>
+    </init-param>
+    <init-param>
+    	<param-name>jdbcURL</param-name>
+    	<param-value>jdbc:postgresql://localhost:5432/postgres</param-value>
+    </init-param>
+    <init-param>
+    	<param-name>jdbcUser</param-name>
+    	<param-value>postgres</param-value>
+    </init-param>
+    <init-param>
+    	<param-name>jdbcPassword</param-name>
+    	<param-value>notmysql</param-value>
+    </init-param>
+    <init-param>
+    	<param-name>appName</param-name>
+    	<param-value>chatbotfriend</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>WebSocketChatServlet</servlet-name>

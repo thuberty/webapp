@@ -61,6 +61,15 @@ var room = {
 			
 			// dispatch to appropriate action to act on incoming message
 			switch (msg.header) {
+			case 'register-login':
+				registerLoginAction(msg);
+			    break;
+			case 'register-username':
+				registerUsernameAction(msg);
+				break;
+			case 'register-password': 
+				registerPasswordAction(msg); 
+				break;
 			case 'login-username': 
 				loginUsernameAction(msg); 
 				break;

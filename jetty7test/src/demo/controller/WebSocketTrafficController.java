@@ -1,4 +1,4 @@
-package demo;
+package demo.controller;
 
 
 import java.io.IOException;
@@ -17,17 +17,20 @@ import javax.servlet.http.HttpSession;
 import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketFactory;
 
+import demo.model.Model;
+
+
 
 /**
  * Servlet that reacts to HTML5 websocket connections.
  * When a new websocket connection is established, the members data structure
  * is updated with a chat member and its socket. 
  */
-public class WebSocketChatServlet extends HttpServlet 
+public class WebSocketTrafficController extends HttpServlet 
 {
     // used to bringup web socket functionality
 	private WebSocketFactory _wsFactory;
-	
+	Model model;
 	// holds a hashmap of all chat members currently active
     private final Map<String,ChatMember> members = new ConcurrentHashMap<String,ChatMember>();
     
@@ -38,9 +41,14 @@ public class WebSocketChatServlet extends HttpServlet
     public void init() throws ServletException
     {
         // Create and configure WS factory
+    	model = new Model(getServletConfig());
+    	ChatMember.setMembers(members);
+    	ChatMember.setDAO(model);
         _wsFactory=new WebSocketFactory(new WebSocketFactory.Acceptor()
+        
         {
-            public boolean checkOrigin(HttpServletRequest request, String origin) {
+            public boolean checkOrigin(HttpServletRequest request, String origin)
+            {
                 // Allow all origins
                 return true;
             }
@@ -61,7 +69,7 @@ public class WebSocketChatServlet extends HttpServlet
                 	}
                 	else {
                 		// member does not have session, create member and socket
-                		ChatMember member = new ChatMember(request.getSession(), members);
+                		ChatMember member = new ChatMember(request.getSession());
                 		memberSocket.setMember(member);
                 		members.put(request.getSession().getId(), member);
                 	}
@@ -73,7 +81,7 @@ public class WebSocketChatServlet extends HttpServlet
             }
         });
         _wsFactory.setBufferSize(4096);
-        _wsFactory.setMaxIdleTime(6000000);
+        _wsFactory.setMaxIdleTime(60000);
     }
     
     /** 
