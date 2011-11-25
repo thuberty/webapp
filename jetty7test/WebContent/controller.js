@@ -94,7 +94,7 @@ var room = {
 $(document).ready(function() {
 	$('#phrase').attr('autocomplete','OFF');
 	$('#phrase').bind('keyup', function(ev) {   var keyc=getKeyCode(ev); if (keyc==13 || keyc==10) { room.chat($F('#phrase')); $('#phrase').val(""); return false; } return true; });
-	$('#sendB').click(function(event) { room.chat($F('#phrase')); $('#phrase').value=''; return false; });
+	$('#sendB').click(function(event) { room.chat($F('#phrase')); $('#phrase').val(""); return false; });
 	room.join('name');
 	$('#chatarea').height($(window).height() - 240);
 	$(window).resize(function() {

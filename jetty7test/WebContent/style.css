@@ -10,6 +10,18 @@ h1 {
 	font-size:24px;
 }
 
+span#block1 {
+	color:#C7F464;
+}
+
+span#block2 {
+	color:#4ECDC4;
+}
+
+span#block3 {
+	color:#556270;
+}
+
 div#chat {
 	clear: both;
 	overflow: hidden;
@@ -108,6 +120,11 @@ input#sendB {
 	margin-top:3px;
 	width:100px;
 	font-family: 'Terminal Dosis', sans-serif;
+}
+
+input#sendB:hover {
+	background:#C44D58;
+	cursor:pointer;
 }
 
 span.start-quote {

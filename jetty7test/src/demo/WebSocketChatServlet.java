@@ -74,7 +74,7 @@ public class WebSocketChatServlet extends HttpServlet
             }
         });
         _wsFactory.setBufferSize(4096);
-        _wsFactory.setMaxIdleTime(60000);
+        _wsFactory.setMaxIdleTime(6000000);
     }
     
     /** 
