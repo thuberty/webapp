@@ -40,8 +40,7 @@ public class WebSocketChatServlet extends HttpServlet
         // Create and configure WS factory
         _wsFactory=new WebSocketFactory(new WebSocketFactory.Acceptor()
         {
-            public boolean checkOrigin(HttpServletRequest request, String origin)
-            {
+            public boolean checkOrigin(HttpServletRequest request, String origin) {
                 // Allow all origins
                 return true;
             }
