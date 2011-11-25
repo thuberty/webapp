@@ -1,4 +1,4 @@
-package demo;
+package demo.controller;
 
 import java.io.IOException;
 import net.sf.json.JSONObject;
@@ -20,14 +20,14 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 {
     volatile private Connection _connection;
     
-    private ChatMember user;
+    private ChatMember member;
     
     public ChatMember getMember() {
-    	return user;
+    	return member;
     }
     
     public void setMember(ChatMember member) {
-    	user = member;
+    	this.member = member;
     }
     
     /** 
@@ -37,7 +37,16 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
     public void onOpen(Connection connection)
     {
         _connection=connection;
-        user.addSocket(this);
+        member.addSocket(this);
+
+		// check if user authenticated
+		if (!member.isAuthenticated()) {
+			Message message = new Message();
+			message.setBody("Please enter your username");
+			message.setHeader("login-username");
+			message.setSender("system");
+			send(message);
+		}
     }
 
 
@@ -49,7 +58,7 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
      */
     public void onClose(int closeCode, String message)
     {
-        user.removeSocket(this);
+        member.removeSocket(this);
     }
 
     /** 
@@ -65,21 +74,21 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
     	//----------------------------------------------
     	// Member not authenticated
     	//----------------------------------------------
-    	if (!user.isAuthenticated()) {
-    		new LoginAction().perform(user, message);
+    	if (!member.isAuthenticated()) {
+    		new LoginAction().perform(member, message);
     	}
     	else {
     	//----------------------------------------------
     	// Member is waiting for a partner
     	//----------------------------------------------
-    		if (user.getPartner() == null) {
-    			new PartnerlessAction().perform(user, message);
+    		if (member.getPartner() == null) {
+    			new PartnerlessAction().perform(member, message);
     		}
     	//----------------------------------------------
     	// Member has a partner
         //----------------------------------------------
     		else {
-    			new ChatAction().perform(user, message);
+    			new ChatAction().perform(member, message);
     		}
     	}
   

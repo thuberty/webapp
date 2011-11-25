@@ -1,4 +1,4 @@
-package demo;
+package demo.controller;
 
 
 import java.io.IOException;
@@ -18,12 +18,13 @@ import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketFactory;
 
 
+
 /**
  * Servlet that reacts to HTML5 websocket connections.
  * When a new websocket connection is established, the members data structure
  * is updated with a chat member and its socket. 
  */
-public class WebSocketChatServlet extends HttpServlet 
+public class WebSocketTrafficController extends HttpServlet 
 {
     // used to bringup web socket functionality
 	private WebSocketFactory _wsFactory;

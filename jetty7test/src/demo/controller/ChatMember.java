@@ -1,4 +1,4 @@
-package demo;
+package demo.controller;
 
 import java.io.IOException;
 import java.util.Map;
@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.servlet.http.HttpSession;
+
+import demo.model.User;
 
 /**
  * This class represents a chat member which is an instance of a user identified by
@@ -88,14 +90,6 @@ public class ChatMember {
 	public void addSocket(ChatWebSocket socket) {
 		sockets.add(socket);
 		
-		// check if user authenticated
-		if (!isAuthenticated()) {
-			Message message = new Message();
-			message.setBody("Please enter your username");
-			message.setHeader("login-username");
-			message.setSender("system");
-			socket.send(message);
-		}
 	}
 	
 	/**

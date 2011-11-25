@@ -1,4 +1,6 @@
-package demo;
+package demo.controller;
+
+import demo.model.User;
 
 /**
  * Login action class - replies to user messages when user is not authenticated

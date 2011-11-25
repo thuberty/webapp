@@ -1,4 +1,4 @@
-package demo;
+package demo.controller;
 
 import java.io.IOException;
 import java.net.URI;

@@ -1,4 +1,5 @@
-package demo;
+package demo.controller;
+
 
 /**
  * Action taken when a member has no chat partner.

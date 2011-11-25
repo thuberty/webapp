@@ -1,11 +1,11 @@
-package demo;
+package demo.model;
 
 /**
  * User data bean
  * 
  * Represents an instance of an authenticated user (where a user is a registered one from the db)
  */
-public class User {
+public class User implements Comparable<User>{
 	private String username;
 	private String password;
 	private int uid;
@@ -27,5 +27,9 @@ public class User {
 	}
 	public void setUid(int uid) {
 		this.uid = uid;
+	}
+	@Override
+	public int compareTo(User arg0) {
+		return this.getUid() - arg0.getUid();
 	}
 }

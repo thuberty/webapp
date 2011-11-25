@@ -1,4 +1,5 @@
-package demo;
+package demo.controller;
+
 
 /**
  * Main chat action when a member is chatting with a partner.
