@@ -14,7 +14,7 @@ public class PartnerlessAction implements Action {
 		reply.setBody("vote on <span class=\"preferable\" id=\"5\">this</span>");
 		reply.setHeader("waiting");
 		
-		System.out.println("partnerless action");
+		System.out.println("partnerless action 1");
 		
 		// send reply to user
 		if (reply != null) {
