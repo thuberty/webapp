@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketFactory;
 
+import demo.model.Model;
+
 
 
 /**
@@ -28,7 +30,7 @@ public class WebSocketTrafficController extends HttpServlet
 {
     // used to bringup web socket functionality
 	private WebSocketFactory _wsFactory;
-	
+	Model model;
 	// holds a hashmap of all chat members currently active
     private final Map<String,ChatMember> members = new ConcurrentHashMap<String,ChatMember>();
     
@@ -39,7 +41,11 @@ public class WebSocketTrafficController extends HttpServlet
     public void init() throws ServletException
     {
         // Create and configure WS factory
+    	model = new Model(getServletConfig());
+    	ChatMember.setMembers(members);
+    	ChatMember.setDAO(model);
         _wsFactory=new WebSocketFactory(new WebSocketFactory.Acceptor()
+        
         {
             public boolean checkOrigin(HttpServletRequest request, String origin)
             {
@@ -63,7 +69,7 @@ public class WebSocketTrafficController extends HttpServlet
                 	}
                 	else {
                 		// member does not have session, create member and socket
-                		ChatMember member = new ChatMember(request.getSession(), members);
+                		ChatMember member = new ChatMember(request.getSession());
                 		memberSocket.setMember(member);
                 		members.put(request.getSession().getId(), member);
                 	}

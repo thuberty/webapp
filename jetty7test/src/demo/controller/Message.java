@@ -2,6 +2,7 @@ package demo.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * This is a message java bean that represents a message to or from a client socket.
@@ -23,20 +24,29 @@ public class Message {
 	private String sender;
 	private String body;
 	private String header;
-	private String[] errors;
+	private ArrayList<String> errors = new ArrayList<String>();
+	static Message defaultMessage = null;
 	
+	
+	static Message getDefaultMessage() {
+		if (defaultMessage == null) {
+			defaultMessage = new Message();
+			defaultMessage.setBody("");
+			defaultMessage.setHeader("register-login");
+		}
+		return defaultMessage;
+	}
 	public String[] getErrors() {
-		return errors;
+		String[] b = {};
+		return errors.toArray(b);
 	}
 
-	public void setErrors(String[] errors) {
+	public void setErrors(ArrayList<String> errors) {
 		this.errors = errors;
 	}
 	
 	public void addError(String error) {
-		ArrayList<String> errs = new ArrayList<String>(Arrays.asList(errors));
-		errs.add(error);
-		errors = (String[]) errs.toArray();
+		errors.add(error);
 	}
 
 	public String getSender() {

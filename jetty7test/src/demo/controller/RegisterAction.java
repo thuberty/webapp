@@ -1,48 +1,48 @@
 package demo.controller;
 
 import demo.model.User;
-import demo.model.UserDAO;
 
-/**
- * Login action class - replies to user messages when user is not authenticated
- */
-public class LoginAction implements Action {
+public class RegisterAction  implements Action {
 	public void perform(ChatMember user, Message message) {
 		Message reply = new Message();
 
-		System.out.println("login action");
+		System.out.println("register action");
 
-		// message is of type 'login-username', the first step of the login process
+		// message is of type 'register-username', the first step of the login process
 		// a message of type 'login-username' was sent to the client prompting for username
 		// and client is expected to return message of this type with the username.
-		if (message.getHeader().equalsIgnoreCase("login-username")) {
-			//check if username exists
+		if (message.getHeader().equalsIgnoreCase("register-username")) {
+			
 			String input = message.getBody();
 			System.out.println(input);
-			if (validUsername(input, user)) {
-					// username exists, prompt for password
-					reply.setSender("system");
-				reply.setBody("Welcome " + input + "! Please enter your password.");
-				reply.setHeader("login-password");
 
-				// set username in member to remember (todo: consider best practice, username should be confirmed below with password)
+			// check if username exists
+			if (availableUsername(input, user)) {
+
+
+				// username doesn't exist, prompt for password
+				reply.setSender("system");
+				reply.setBody("Welcome " + input + "! Please enter your desired password.");
+				reply.setHeader("register-password");
+				
+				// set username in member to remember
 				user.setUsername(input);
 
-				// username doesn't exist, prompt for registration
 			}
 			else {
-				// username was invalid
+				// username was unavailable
 				reply.setSender("system");
 				message.setBody("Please enter your username.");
-				reply.setHeader("login-username");
-				reply.addError("invalid username");
+				reply.setHeader("register-username");
+				reply.addError("username already exists");
 			}			
 		}
-		// message is of type 'login-password', client was expected to provide password
-		else if (message.getHeader().equalsIgnoreCase("login-password")) {
-			// check password match
-			if (user.passwordMatches(message.getBody())) {
-				
+		// message is of type 'register-password', client was expected to provide password
+		else if (message.getHeader().equalsIgnoreCase("register-password")) {
+			// todo: check password match
+
+			if (message.getBody().length()>0){
+				user.persistUser(message.getBody());
 				// authenticate user by placing object into session
 				user.getSession().setAttribute("user", user.getUser());
 
@@ -68,12 +68,14 @@ public class LoginAction implements Action {
 					partnerMessage.setHeader("partner");
 					user.getPartner().sendMessage(partnerMessage);
 				}
-			} else {
-				// password was invalid
+				
+			}
+			else {
+				// password was empty
 				reply.setSender("system");
-				message.setBody("Please begin again with your username.");
-				reply.setHeader("login-username");
-				reply.addError("invalid password");
+				message.setBody("Please enter your desired password.");
+				reply.setHeader("register-password");
+				reply.addError("empty password");
 			}
 		}
 
@@ -83,11 +85,10 @@ public class LoginAction implements Action {
 		}
 	}
 
-	private boolean validUsername(String body, ChatMember user) {
+	private boolean availableUsername(String body, ChatMember user) {
 		// 'system' is a reserved name
-		if (body.equalsIgnoreCase("system")) return false;
-		if (body.length() <= 0) return false;
-		return !user.isAvailable(body);
-
+		if (body.trim().equalsIgnoreCase("system")) return false;
+		if (body.trim().length() <= 0) return false;
+		return user.isAvailable(body.trim());
 	}
 }

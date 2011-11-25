@@ -5,7 +5,17 @@ function loginUsernameAction(msg) {
 	renderMessageSystem(msg);
 }
 
+function registerUsernameAction(msg) {
+	$('#phrase').prop('type', 'text');
+	renderMessageSystem(msg);
+}
+
 function loginPasswordAction(msg) {
+	$('#phrase').prop('type', 'password');
+	renderMessageSystem(msg);
+}
+
+function registerPasswordAction(msg) {
 	$('#phrase').prop('type', 'password');
 	renderMessageSystem(msg);
 }
@@ -21,6 +31,11 @@ function chatAction(msg) {
 }
 
 function waitingAction(msg) {
+	$('#phrase').prop('type', 'text');
+	renderMessageSystem(msg);
+}
+
+function registerLoginAction(msg) {
 	$('#phrase').prop('type', 'text');
 	renderMessageSystem(msg);
 }
