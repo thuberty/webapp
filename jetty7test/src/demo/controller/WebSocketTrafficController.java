@@ -18,6 +18,9 @@ import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketFactory;
 
 import demo.model.Model;
+import edu.smu.tspell.wordnet.Synset;
+import edu.smu.tspell.wordnet.SynsetType;
+import edu.smu.tspell.wordnet.WordNetDatabase;
 
 
 
@@ -40,6 +43,9 @@ public class WebSocketTrafficController extends HttpServlet
     @Override
     public void init() throws ServletException
     {
+    	// configure wordnet
+    	System.setProperty("wordnet.database.dir", "C:\\Program Files (x86)\\WordNet\\2.1\\dict");
+
         // Create and configure WS factory
     	model = new Model(getServletConfig());
     	ChatMember.setMembers(members);
