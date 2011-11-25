@@ -39,7 +39,7 @@ public class ChatMember {
 		sockets = new CopyOnWriteArraySet<ChatWebSocket>();
 
 		// session may contain data, so load it here
-		partner = (ChatMember) session.getAttribute("partner");
+		// partner = (ChatMember) session.getAttribute("partner");
 		if (isAuthenticated()) {
 			user = ((User)session.getAttribute("user"));
 		}
@@ -130,7 +130,6 @@ public class ChatMember {
 	 */
 	public void addSocket(ChatWebSocket socket) {
 		sockets.add(socket);
-
 	}
 
 	/**
@@ -144,15 +143,26 @@ public class ChatMember {
 
 		// if no more sockets exist for this member, this member no longer needs to exist
 		if (sockets.isEmpty()) {
-			synchronized(members){
+			synchronized(members) {
 				members.remove(session.getId());
-
+				
+				// inform partner of non-existence of this user
+				if (partner != null) {
+					partner.disconnectPartner();
+					setPartner(null);
+				}
 			}
 		}
-
-		if (partner != null) {
-			// todo: inform partner of closing
-		}
+	}
+	
+	public void disconnectPartner() {
+		setPartner(null);
+		Message message = new Message();
+		message.setHeader("partner");
+		message.setBody("Your partner disconnected. Please wait while we try to find another.");
+		message.setSender("system");
+		sendMessage(message);
+		new PartnerlessAction().perform(this, null);
 	}
 
 	/**
@@ -178,7 +188,7 @@ public class ChatMember {
 	 */
 	public boolean findPartner() {
 		// thread safe - multiple objects grabbing same partner shouldn't be allowed
-		synchronized(members){
+		synchronized(members) {
 			for (ChatMember member : members.values()) {
 				if (member.equals(this)) continue; // exclude this member
 				if (member.getPartner() != null) continue; // exclude members already paired

@@ -59,6 +59,8 @@ var room = {
 			// track current transaction type
 			currentMessageType = msg.header;
 			
+			renderErrorMessages(msg.errors);
+			
 			// dispatch to appropriate action to act on incoming message
 			switch (msg.header) {
 			case 'register-login':
@@ -84,6 +86,9 @@ var room = {
 				break;
 			case 'waiting': 
 				waitingAction(msg);
+				break;
+			case 'partner':
+				partnerAction(msg);
 				break;
 			default: return; // drop message if unknown type
 			}

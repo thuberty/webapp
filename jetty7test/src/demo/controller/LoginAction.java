@@ -20,8 +20,8 @@ public class LoginAction implements Action {
 			String input = message.getBody();
 			System.out.println(input);
 			if (validUsername(input, user)) {
-					// username exists, prompt for password
-					reply.setSender("system");
+				// username exists, prompt for password
+				reply.setSender("system");
 				reply.setBody("Welcome " + input + "! Please enter your password.");
 				reply.setHeader("login-password");
 
@@ -33,7 +33,7 @@ public class LoginAction implements Action {
 			else {
 				// username was invalid
 				reply.setSender("system");
-				message.setBody("Please enter your username.");
+				reply.setBody("Please enter your username.");
 				reply.setHeader("login-username");
 				reply.addError("invalid username");
 			}			
@@ -46,32 +46,13 @@ public class LoginAction implements Action {
 				// authenticate user by placing object into session
 				user.getSession().setAttribute("user", user.getUser());
 
-				// password correct, find partner
-				boolean partnerFound = user.findPartner();
-
-				// partner not found yet, inform user
-				if (!partnerFound) {
-					reply.setSender("system");
-					reply.setBody("awaiting partner");
-					reply.setHeader("waiting");
-				}
-				else {
-					// inform user of matched partner
-					reply.setSender("system");
-					reply.setBody(user.getPartner().getUsername() + " is your new chat partner!");
-					reply.setHeader("partner");
-
-					// inform partner of match
-					Message partnerMessage = new Message();
-					partnerMessage.setSender("system");
-					partnerMessage.setBody(user.getUsername() + " is your new chat partner!");
-					partnerMessage.setHeader("partner");
-					user.getPartner().sendMessage(partnerMessage);
-				}
+				new PartnerlessAction().perform(user, message);
+				return;
+				
 			} else {
 				// password was invalid
 				reply.setSender("system");
-				message.setBody("Please begin again with your username.");
+				reply.setBody("Please begin again with your username.");
 				reply.setHeader("login-username");
 				reply.addError("invalid password");
 			}

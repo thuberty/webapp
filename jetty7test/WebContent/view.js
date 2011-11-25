@@ -41,3 +41,27 @@ function renderMessageSystem(msg) {
 	chat.children('.incoming').hide();
 	$("#chatarea").prop({ scrollTop: $("#chatarea").prop("scrollHeight") });
 }
+
+function renderErrorMessages(errors) {
+	if (errors.length < 1) return;
+	
+	var errorMsg = '<span class="error">Error: ';
+	var i;
+	for(i=0;i<errors.length;i++) {
+		if (i != 0) errorMsg += ', ';
+		errorMsg += errors[i];
+	}
+	errorMsg += '</span>';
+	
+	var output = '<div class="item incoming">';
+	output += '<span class="start-quote system">&#8220;</span>' + errorMsg + '<span class="end-quote system">&#8221;</span>';
+	output += '<span class="from">-chatbotfriend</span>';
+	output += '<br/></div>';
+	
+	var chat = $('#chat');
+	chat.append(output);
+	chat.children('.incoming').fadeIn();
+	chat.children('.incoming').removeClass('incoming');
+	chat.children('.incoming').hide();
+	$("#chatarea").prop({ scrollTop: $("#chatarea").prop("scrollHeight") });
+}

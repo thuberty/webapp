@@ -139,6 +139,10 @@ span.end-quote {
 	font-weight:bold;
 }
 
+span.error {
+	color:#C44D58;
+}
+
 .me {
 	color:#C7F464;
 }
