@@ -1,5 +1,7 @@
 package demo.controller;
 
+import demo.model.MyDAOException;
+import demo.model.Preferable;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
 import edu.smu.tspell.wordnet.WordNetDatabase;
@@ -51,6 +53,13 @@ public class ChatAction implements Action {
 	    	    // check if word or derivative can be noun, but exact form not a verb
 	    	    if (nounSynsets.length > 0 && verbSynsets.length == 0) {
 	    	    	newBody = newBody.replace(word, "<strong>" + word + "</strong>");
+	    	    	Preferable preferable = new Preferable();
+	    	    	preferable.setTerm(word);
+	    	    	try {
+						ChatMember.getPreferenceDAO().create(preferable);
+					} catch (MyDAOException e) {
+						System.out.println(e);
+					}
 	    	    }
 			}
 		}

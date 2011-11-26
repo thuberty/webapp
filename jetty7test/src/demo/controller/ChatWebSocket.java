@@ -63,10 +63,14 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 	 */
 	public void onMessage(String data)
 	{
-
 		Message message;
+		
 		if (data != null) message = (Message) JSONObject.toBean(new JSONObject().fromObject(data), Message.class);
-		else message = Message.getDefaultMessage();     	
+		else message = Message.getDefaultMessage();
+		
+		// prevent XSS, etc.
+		message.escapeHTML();
+		
 		//----------------------------------------------
 		// Member not authenticated
 		//----------------------------------------------
@@ -92,6 +96,12 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 			}
 		}
 		else {
+			//----------------------------------------------
+			// This is a preference being pushed to server
+			//----------------------------------------------
+			if (message.getHeader().equalsIgnoreCase("preference")) {
+				new PreferAction().perform(member, message);
+			}
 			//----------------------------------------------
 			// Member is waiting for a partner
 			//----------------------------------------------

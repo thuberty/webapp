@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.mybeans.dao.DAOException;
 
 import demo.model.Model;
+import demo.model.PreferenceDAO;
 import demo.model.User;
 import demo.model.UserDAO;
 
@@ -33,6 +34,7 @@ public class ChatMember {
 	private Set<ChatWebSocket> sockets;
 	private static Map<String,ChatMember> members;
 	private static UserDAO userDAO = null;
+	private static PreferenceDAO preferenceDAO = null;
 
 	public ChatMember(HttpSession session) {
 		this.session = session;
@@ -53,6 +55,11 @@ public class ChatMember {
 
 	public static void setDAO(Model model) {
 		userDAO = model.getUserDAO();
+		preferenceDAO = model.getPreferenceDAO();
+	}
+	
+	public static PreferenceDAO getPreferenceDAO() {
+		return preferenceDAO;
 	}
 
 	public String processMessageTo(String data) {

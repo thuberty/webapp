@@ -72,4 +72,32 @@ public class Message {
 	public void setHeader(String header) {
 		this.header = header;
 	}
+	
+	public void escapeHTML() {
+		setBody(escapeHTML(getBody()));
+		setHeader(escapeHTML(getHeader()));
+		setSender(escapeHTML(getSender()));
+	}
+	
+	/*
+	 * Helper method to ensure input is safe against XSS, etc.
+	 */
+	private String escapeHTML(String html) {
+    	if (html == null) {
+    		return null;
+    	}
+    	
+    	StringBuilder escaped = new StringBuilder();
+    	for (char c : html.toCharArray()) {
+    		switch (c) {
+	    		case '<': escaped.append("&lt;"); break;
+	    		case '>': escaped.append("&gt;"); break;
+	    		case '"': escaped.append("&quot;"); break;
+	    		case '\'': escaped.append("&#39;"); break;
+	    		case '&': escaped.append("&amp;"); break;
+	    		default: escaped.append(c);
+    		}
+    	}
+		return escaped.toString();
+	}
 }
