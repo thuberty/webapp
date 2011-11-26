@@ -31,7 +31,7 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
  */
 public class WebSocketTrafficController extends HttpServlet 
 {
-    // used to bringup web socket functionality
+    // used to bringup web socket functionality 
 	private WebSocketFactory _wsFactory;
 	Model model;
 	// holds a hashmap of all chat members currently active
@@ -45,7 +45,7 @@ public class WebSocketTrafficController extends HttpServlet
     {
     	// configure wordnet C:\Program Files (x86)\WordNet\2.1\dict
     	System.setProperty("wordnet.database.dir", "C:\\Program Files (x86)\\WordNet\\2.1\\dict");
-
+    	System.out.println("initted");
         // Create and configure WS factory
     	model = new Model(getServletConfig());
     	ChatMember.setMembers(members);
