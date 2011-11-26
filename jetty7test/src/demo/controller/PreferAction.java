@@ -6,6 +6,8 @@ public class PreferAction implements Action {
 	public void perform(ChatMember user, Message message) {
 		int pid, preference;
 		
+		System.out.println("prefer action");
+		
 		try {
 			pid = Integer.parseInt(message.getBody());
 			preference = Integer.parseInt(message.getBody());

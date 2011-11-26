@@ -101,6 +101,7 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 			//----------------------------------------------
 			if (message.getHeader().equalsIgnoreCase("preference")) {
 				new PreferAction().perform(member, message);
+				return;
 			}
 			//----------------------------------------------
 			// Member is waiting for a partner

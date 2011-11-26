@@ -82,7 +82,7 @@ public class PreferenceDAO {
         	con = getConnection();
             Statement stmt = con.createStatement();
             stmt.executeUpdate("CREATE TABLE " + appname + "_preferables (pid SERIAL PRIMARY KEY, term VARCHAR(255) NOT NULL UNIQUE)");
-            stmt.executeUpdate("CREATE TABLE " + appname + "_user_preferences (pid INT, uid INT, preference INT)");
+            stmt.executeUpdate("CREATE TABLE " + appname + "_user_preferences (pid INT, uid INT, preference INT, UNIQUE (pid, uid))");
             stmt.close();
         	
             releaseConnection(con);
@@ -229,17 +229,13 @@ public class PreferenceDAO {
 		    pstmtInsert.setInt(2, preferable.getPid());
 		    pstmtInsert.setInt(3, preferable.getUser().getUid());
 		    
-		    // insert if it doesn't exist yet in one atomic statement with check that pid exists
-		    PreparedStatement pstmtUpdate = con.prepareStatement("INSERT INTO " + appname + "_user_preferences (preference, pid, uid) VALUES (?,?,?)" + 
-		    		" WHERE NOT EXISTS (SELECT * FROM " + appname + "_user_preferences WHERE preference = ? AND pid = ? AND uid = ?)" + 
-		    		" AND EXISTS (SELECT * FROM " + appname + "_preferables WHERE pid = ?)");
+		    pstmtInsert.close();
+		    
+		    // insert if it doesn't exist yet (will through error because of constraint of uniqueness on table)
+		    PreparedStatement pstmtUpdate = con.prepareStatement("INSERT INTO " + appname + "_user_preferences (preference, pid, uid) VALUES (?,?,?)");
 		    pstmtUpdate.setInt(1, preferable.getPreference());
 		    pstmtUpdate.setInt(2, preferable.getPid());
 		    pstmtUpdate.setInt(3, preferable.getUser().getUid());
-		    pstmtUpdate.setInt(4, preferable.getPreference());
-		    pstmtUpdate.setInt(5, preferable.getPid());
-		    pstmtUpdate.setInt(6, preferable.getUser().getUid());
-		    pstmtUpdate.setInt(7, preferable.getPid());
 		    
 		    int count = pstmtInsert.executeUpdate();
 		    pstmtUpdate.executeUpdate();

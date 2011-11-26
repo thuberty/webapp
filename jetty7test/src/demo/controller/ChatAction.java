@@ -37,6 +37,8 @@ public class ChatAction implements Action {
 	}
 	
 	private String identifyPreferables(String msg) {
+		if (msg == null) return msg;
+		
 		// get instance of wordnet
 		WordNetDatabase database = WordNetDatabase.getFileInstance();
 	
