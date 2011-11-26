@@ -43,7 +43,7 @@ public class WebSocketTrafficController extends HttpServlet
     @Override
     public void init() throws ServletException
     {
-    	// configure wordnet
+    	// configure wordnet C:\Program Files (x86)\WordNet\2.1\dict
     	System.setProperty("wordnet.database.dir", "C:\\Program Files (x86)\\WordNet\\2.1\\dict");
 
         // Create and configure WS factory
