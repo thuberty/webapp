@@ -207,17 +207,20 @@ public class ChatMember {
 	 * 
 	 * Returns true if a partner is found, false otherwise.
 	 */
-	public boolean findPartner() {
+	public Integer findPartner() {
 		// thread safe - multiple objects grabbing same partner shouldn't be allowed
 		synchronized(members) {
+			int available = 0;
 			ChatMember partner = null;
 			int maxBonding = Integer.MIN_VALUE;
 			for (ChatMember member : members.values()) {
 				if (member.equals(this)) continue; // exclude this member
 				if (member.getPartner() != null) continue; // exclude members already paired
 				if (!member.isAuthenticated()) continue; // exclude non-authenticated members
+				available++;
 				int bonding;
 				try {
+					System.out.println("comparing " +user.getUsername() +" "+member.getUsername());
 					bonding = comparePrefs(member);
 				} catch (MyDAOException e) {
 					// TODO Auto-generated catch block
@@ -230,27 +233,56 @@ public class ChatMember {
 				}
 			}
 			// no chat members are available
-			if (partner == null) return false;
+			if (partner == null || available < 2) return null;
 			
 			//a partner was found
 			this.setPartner(partner);
 			partner.setPartner(this);
-			return true;
+			return maxBonding;
 		}
 
 		
 	}
 	
+	/**
+	 * returns a representation of the difference between two chatmember's preferences,
+	 * more positive meaning more alike, more negative meaning more unlike
+	 * @param him, chatmember to compare preferences with
+	 * @return sum of (difference^2) over all preferences
+	 * @throws MyDAOException
+	 */
 	private int comparePrefs(ChatMember him) throws MyDAOException {
 		List<Preferable> ourList = preferenceDAO.getUserPreferences(user.getUid());
 		List<Preferable> hisList = preferenceDAO.getUserPreferences(him.getUser().getUid());
-		ourList.retainAll(hisList);
+		System.out.println("oursize:" +ourList.size()+" hissize:"+hisList.size());
+		ourList = intersection(ourList, hisList);
+		System.out.println("overlapping preferences:"+ourList.size());
 		int bond = 0;
+		
 		for (Preferable pref : ourList) {
 			Preferable hisPref = hisList.get(hisList.indexOf((pref)));
+			System.out.println("pref:"+pref.getPid()+": "+pref.getPreference()+"/"+hisPref.getPreference());
 			bond -= Math.pow((pref.getPreference() - hisPref.getPreference()),2);
 		}
+		System.out.println(user.getUsername() +" / " + him.getUsername() + "=" + bond);
 		return bond;
+	}
+	
+	/**
+	 * Intersects two Preference lists
+	 * @param a
+	 * @param b
+	 * @return the intersection of a and b
+	 */
+	private static List<Preferable> intersection(List<Preferable> a, List<Preferable> b) {
+		ArrayList<Preferable> result = new ArrayList<Preferable>();
+		HashSet<Preferable> compare = new HashSet<Preferable>(b);
+		
+		for (Preferable p : a) {
+			if (compare.contains(p)) result.add(p);
+		}
+		return result;
+		
 	}
 
 
@@ -260,5 +292,10 @@ public class ChatMember {
 	
 	public Set<Integer> getPreferables() {
 		return preferables;
+	}
+
+
+	public String getTopics() {
+		return "NOTHING";
 	}
 }

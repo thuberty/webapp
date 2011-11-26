@@ -34,4 +34,17 @@ public class Preferable implements Comparable<Preferable> {
 	public int compareTo(Preferable o) {
 		return pid-o.getPid();
 	}
+	
+	@Override
+	public boolean equals(Object p) {
+		if(p instanceof Preferable) {
+			return (compareTo((Preferable)p) == 0);
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return pid;
+	}
 }

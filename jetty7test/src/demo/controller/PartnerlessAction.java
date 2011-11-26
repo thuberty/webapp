@@ -12,10 +12,10 @@ public class PartnerlessAction implements Action {
 		Message reply = new Message();
 		
 		// password correct, find partner
-		boolean partnerFound = user.findPartner();
+		Integer partnerFound = user.findPartner();
 
 		// partner not found yet, inform user
-		if (!partnerFound) {
+		if (partnerFound == null) {
 			reply.setSender("system");
 			reply.setBody("Unfortunately, there are no partners available to chat with you. Please wait to be matched.");
 			reply.setHeader("waiting");
@@ -23,7 +23,9 @@ public class PartnerlessAction implements Action {
 		else {
 			// inform user of matched partner
 			reply.setSender("system");
-			reply.setBody(user.getPartner().getUsername() + " is your new chat partner!");
+			reply.setBody(user.getPartner().getUsername() + " is your new chat partner!" 
+			+ "\n Your compatability rating is:" + (100+partnerFound) +". " + 
+			"why don't you chat about " + user.getTopics());
 			reply.setHeader("partner");
 
 			// inform partner of match
