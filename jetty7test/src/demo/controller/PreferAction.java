@@ -6,12 +6,16 @@ public class PreferAction implements Action {
 	public void perform(ChatMember user, Message message) {
 		int pid, preference;
 		
-		System.out.println("prefer action");
-		
-		System.out.println("prefer action");
-		
+		System.out.println("prefer action");		
 		
 			pid = Integer.parseInt(message.getSender().replaceFirst("#", ""));
+			
+			if (!user.getPreferables().contains(pid)) {
+				System.out.println("forged pid");
+				// forged pid, ignore request
+				return;
+			}
+			
 			preference = Integer.parseInt(message.getBody());
 			Preferable preferable = new Preferable();
 			preferable.setPid(pid);

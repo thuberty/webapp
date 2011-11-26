@@ -43,10 +43,12 @@ public class ChatMember {
 	private static Map<String,ChatMember> members;
 	private static UserDAO userDAO = null;
 	private static PreferenceDAO preferenceDAO = null;
+	private static Set<Integer> preferables;
 
 	public ChatMember(HttpSession session) {
 		this.session = session;
 		sockets = new CopyOnWriteArraySet<ChatWebSocket>();
+		preferables = new CopyOnWriteArraySet<Integer>();
 
 		// session may contain data, so load it here
 		// partner = (ChatMember) session.getAttribute("partner");
@@ -256,29 +258,7 @@ public class ChatMember {
 		return user;
 	}
 	
-	public String fixBadChars(String s) {
-		if (s == null || s.length() == 0) return s;
-		
-		Pattern p = Pattern.compile("[<>\"&]");
-        Matcher m = p.matcher(s);
-        StringBuffer b = null;
-        while (m.find()) {
-            if (b == null) b = new StringBuffer();
-            switch (s.charAt(m.start())) {
-                case '<':  m.appendReplacement(b,"&lt;");
-                           break;
-                case '>':  m.appendReplacement(b,"&gt;");
-                           break;
-                case '&':  m.appendReplacement(b,"&amp;");
-                		   break;
-                case '"':  m.appendReplacement(b,"&quot;");
-                           break;
-                default:   m.appendReplacement(b,"&#"+((int)s.charAt(m.start()))+';');
-            }
-        }
-        
-        if (b == null) return s;
-        m.appendTail(b);
-        return b.toString();
-    }
+	public Set<Integer> getPreferables() {
+		return preferables;
+	}
 }

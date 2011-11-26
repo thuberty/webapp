@@ -1,4 +1,3 @@
-@import url("http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css");
 body {
 	background:#fff;
 	padding:0;
@@ -158,6 +157,51 @@ span.error {
 
 .incoming {
 	display:none;
+}
+
+span.likeable {
+	font-size:16px;
+	font-family:'Terminal Dosis',sans-serif;
+	color:#000;
+}
+
+span.likeable:hover {
+	color:#556270;
+}
+
+.ui-slider-handle {
+	height:1.7em !important;
+	width:.5em !important;
+	cursor:pointer !important;
+	outline:none;
+}
+
+span.cloud--3 {
+	font-size:11px
+}
+
+span.cloud--2 {
+	font-size:12px
+}
+
+span.cloud--1 {
+	font-size:13px
+}
+
+span.cloud-0 {
+	font-size:16px
+}
+
+span.cloud-1 {
+	font-size:19px
+}
+
+span.cloud-2 {
+	font-size:20px
+}
+
+span.cloud-3 {
+	font-size:21px
 }
 
 /* Turn on a 13x13 scrollbar */

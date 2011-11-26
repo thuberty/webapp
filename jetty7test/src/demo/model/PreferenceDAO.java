@@ -108,9 +108,9 @@ public class PreferenceDAO {
 		try {
 			con = getConnection();
 
-			//PreparedStatement pstmt = con.prepareStatement("SELECT * FROM " + appname + "_user_preferences AS u LEFT JOIN " 
-			//		+ appname + "_preferables AS p WHERE p.pid = u.pid AND uid = ? ORDER BY p.pid");
-			PreparedStatement pstmt = con.prepareStatement("SELECT * FROM " + appname + "_user_preferences WHERE uid = ?");
+			PreparedStatement pstmt = con.prepareStatement("SELECT * FROM " + appname + "_user_preferences AS u LEFT JOIN " 
+					+ appname + "_preferables AS p ON (p.pid = u.pid) WHERE uid = ? ORDER BY p.pid");
+			//PreparedStatement pstmt = con.prepareStatement("SELECT * FROM " + appname + "_user_preferences WHERE uid = ?");
 			pstmt.setInt(1, uid);
 			ResultSet rs = pstmt.executeQuery();
 
@@ -120,6 +120,7 @@ public class PreferenceDAO {
 				Preferable preferable = new Preferable();
 				preferable.setPid(rs.getInt("pid"));
 				preferable.setPreference(rs.getInt("preference"));
+				preferable.setTerm(rs.getString("term"));
 				preferables.add(preferable);
 			}
 

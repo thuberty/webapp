@@ -41,7 +41,7 @@ var room = {
 		user = user.replace(':', '_');
 		
 		if (message == "test") {
-			preferenceAction(3, 3);
+			cloudSendAction();
 		}
 		
 		var data = {sender:user, body:message, header:currentMessageType};
@@ -96,6 +96,9 @@ var room = {
 				break;
 			case 'partner':
 				partnerAction(msg);
+				break;
+			case 'cloud':
+				cloudReceiveAction(msg);
 				break;
 			default: return; // drop message if unknown type
 			}

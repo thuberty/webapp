@@ -58,3 +58,14 @@ function preferenceAction(pid, preference) {
 	var data = {sender:pid, body:preference, header:'preference'};
 	room.sendRaw($.toJSON(data));
 }
+
+function cloudSendAction() {
+	var data = {sender:'', body:'', header:'cloud'};
+	room.sendRaw($.toJSON(data));
+}
+
+function cloudReceiveAction(msg) {
+	$('#phrase').prop('type', 'text');
+	$('#phrase').prop('disabled', '');
+	renderMessageSystem(msg);
+}

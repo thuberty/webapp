@@ -104,6 +104,13 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 				return;
 			}
 			//----------------------------------------------
+			// This is a request for all user's preferences
+			//----------------------------------------------
+			if (message.getHeader().equalsIgnoreCase("cloud")) {
+				new CloudAction().perform(member, message);
+				return;
+			}
+			//----------------------------------------------
 			// Member is waiting for a partner
 			//----------------------------------------------
 			if (member.getPartner() == null) {
