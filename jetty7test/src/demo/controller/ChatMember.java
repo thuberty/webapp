@@ -43,7 +43,7 @@ public class ChatMember {
 	private static Map<String,ChatMember> members;
 	private static UserDAO userDAO = null;
 	private static PreferenceDAO preferenceDAO = null;
-	private static Set<Integer> preferables;
+	private Set<Integer> preferables;
 
 	public ChatMember(HttpSession session) {
 		this.session = session;

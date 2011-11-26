@@ -27,7 +27,7 @@ public class ChatAction implements Action {
 		user.sendMessage(echo);
 		
 		// identify preferable terms
-		String newBody = identifyPreferables(message.getBody(), user);
+		String newBody = identifyPreferables(message.getBody(), user.getPartner());
 		
 		// forward message to partner
 		partnerMessage.setBody(newBody);

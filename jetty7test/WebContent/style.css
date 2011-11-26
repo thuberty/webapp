@@ -199,6 +199,10 @@ span.likeable:hover {
 	outline:none;
 }
 
+.ui-slider {
+	cursor:pointer !important;
+}
+
 span.cloud--3 {
 	font-size:11px
 }
