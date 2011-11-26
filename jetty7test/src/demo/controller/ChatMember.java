@@ -1,6 +1,10 @@
 package demo.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -12,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import org.mybeans.dao.DAOException;
 
 import demo.model.Model;
+import demo.model.MyDAOException;
+import demo.model.Preferable;
 import demo.model.PreferenceDAO;
 import demo.model.User;
 import demo.model.UserDAO;
@@ -202,20 +208,47 @@ public class ChatMember {
 	public boolean findPartner() {
 		// thread safe - multiple objects grabbing same partner shouldn't be allowed
 		synchronized(members) {
+			ChatMember partner = null;
+			int maxBonding = Integer.MIN_VALUE;
 			for (ChatMember member : members.values()) {
 				if (member.equals(this)) continue; // exclude this member
 				if (member.getPartner() != null) continue; // exclude members already paired
 				if (!member.isAuthenticated()) continue; // exclude non-authenticated members
-
-				// todo: implement smarter logic, instead of first find
-				this.setPartner(member);
-				member.setPartner(this);
-				return true;
+				int bonding;
+				try {
+					bonding = comparePrefs(member);
+				} catch (MyDAOException e) {
+					// TODO Auto-generated catch block
+					bonding = 0;
+					e.printStackTrace();
+				}
+				if (bonding > maxBonding) {
+					partner = member;
+					maxBonding = bonding;
+				}
 			}
+			// no chat members are available
+			if (partner == null) return false;
+			
+			//a partner was found
+			this.setPartner(partner);
+			partner.setPartner(this);
+			return true;
 		}
 
-		// no chat members are available
-		return false;
+		
+	}
+	
+	private int comparePrefs(ChatMember him) throws MyDAOException {
+		List<Preferable> ourList = preferenceDAO.getUserPreferences(user.getUid());
+		List<Preferable> hisList = preferenceDAO.getUserPreferences(him.getUser().getUid());
+		ourList.retainAll(hisList);
+		int bond = 0;
+		for (Preferable pref : ourList) {
+			Preferable hisPref = hisList.get(hisList.indexOf((pref)));
+			bond -= Math.pow((pref.getPreference() - hisPref.getPreference()),2);
+		}
+		return bond;
 	}
 
 

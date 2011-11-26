@@ -32,7 +32,6 @@ public class PreferenceDAO {
 		try {
 			createTables();
 		} catch (MyDAOException e) {
-			System.out.println("1");
 			System.out.println(e);
 			// Ignore ... if thrown assume it's because table already exists
 			// If it's some other problem we'll fail later on
@@ -91,7 +90,7 @@ public class PreferenceDAO {
 		} catch (SQLException e) {
 			System.out.println(e);
 			try { if (con != null) con.close(); } catch (SQLException e2) { /* ignore */ }
-			System.out.println("2");
+			System.out.println("ignore already exists error");
 			throw new MyDAOException(e);
 		}
 	}
@@ -103,14 +102,15 @@ public class PreferenceDAO {
 	 * @return
 	 * @throws MyDAOException
 	 */
-	public Preferable[] getUserPreferences(int uid) throws MyDAOException {
+	public List<Preferable> getUserPreferences(int uid) throws MyDAOException {
 		Connection con = null;
-
+		System.out.println("getting preferences for "+uid);
 		try {
 			con = getConnection();
 
-			PreparedStatement pstmt = con.prepareStatement("SELECT * FROM " + appname + "_user_preferences AS u LEFT JOIN " 
-					+ appname + "_preferables AS p WHERE p.pid = u.pid AND uid = ? ORDER BY p.pid");
+			//PreparedStatement pstmt = con.prepareStatement("SELECT * FROM " + appname + "_user_preferences AS u LEFT JOIN " 
+			//		+ appname + "_preferables AS p WHERE p.pid = u.pid AND uid = ? ORDER BY p.pid");
+			PreparedStatement pstmt = con.prepareStatement("SELECT * FROM " + appname + "_user_preferences WHERE uid = ?");
 			pstmt.setInt(1, uid);
 			ResultSet rs = pstmt.executeQuery();
 
@@ -120,7 +120,6 @@ public class PreferenceDAO {
 				Preferable preferable = new Preferable();
 				preferable.setPid(rs.getInt("pid"));
 				preferable.setPreference(rs.getInt("preference"));
-				preferable.setTerm(rs.getString("term"));
 				preferables.add(preferable);
 			}
 
@@ -128,11 +127,8 @@ public class PreferenceDAO {
 			pstmt.close();
 			releaseConnection(con);
 
-			Preferable[] preferablesArray = new Preferable[preferables.size()];
-
-			return preferables.toArray(preferablesArray);      
+			return preferables;      
 		} catch (Exception e) {
-			System.out.println("3");
 			try { if (con != null) con.close(); } catch (SQLException e2) { /* ignore */ }
 			throw new MyDAOException(e);
 		}
@@ -174,7 +170,6 @@ public class PreferenceDAO {
 
 				return ;
 			} catch (Exception e) {
-				System.out.println("4");
 				try { if (con != null) con.close(); } catch (SQLException e2) { /* ignore */ }
 				System.out.println(e);
 				throw new MyDAOException(e);
@@ -219,7 +214,6 @@ public class PreferenceDAO {
 
 			return newPreferable;      
 		} catch (Exception e) {
-			System.out.println("5");
 			try { if (con != null) con.close(); } catch (SQLException e2) { /* ignore */ }
 			throw new MyDAOException(e);
 		}
@@ -287,7 +281,6 @@ public class PreferenceDAO {
 			releaseConnection(con);
 
 		} catch (Exception e) {
-			System.out.println("6");
 			try { if (con != null) con.close(); } catch (SQLException e2) { /* ignore */ }
 			System.out.println(e);
 			throw new MyDAOException(e);

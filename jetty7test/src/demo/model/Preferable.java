@@ -1,6 +1,6 @@
 package demo.model;
 
-public class Preferable {
+public class Preferable implements Comparable<Preferable> {
 	private String term;
 	private int pid;
 	private int preference;
@@ -29,5 +29,9 @@ public class Preferable {
 	}
 	public void setPreference(int preference) {
 		this.preference = preference;
+	}
+	@Override
+	public int compareTo(Preferable o) {
+		return pid-o.getPid();
 	}
 }

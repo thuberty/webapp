@@ -116,35 +116,6 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 				new ChatAction().perform(member, message);
 			}
 		}
-
-
-		/*
-		 * 	    	// send reply to all sockets
-
-	        for (String sessionId : user.members.keySet()) {
-	        	for (ChatWebSocket member : user.members.get(sessionId).getSockets()) {
-		            member.send(reply);
-	        	}
-	        }
-		 */
-
-		/*     	
-    	// process member's message before sending
-    	data = user.processMessageFrom(data);
-    	// check if partner still exists
-    	if (_members.contains(partner)) {
-    		// process message to partner before sending
-    		data = partner.getUser().processMessageTo(data);
-    		try {
-				partner._connection.sendMessage(data);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-    	}
-    	else {
-    		// send error to member
-    	}
-		 */
 	}
 
 	/**
