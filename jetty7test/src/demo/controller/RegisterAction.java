@@ -1,5 +1,7 @@
 package demo.controller;
 
+import org.mybeans.dao.DAOException;
+
 import demo.model.User;
 
 public class RegisterAction  implements Action {
@@ -12,7 +14,7 @@ public class RegisterAction  implements Action {
 		// a message of type 'login-username' was sent to the client prompting for username
 		// and client is expected to return message of this type with the username.
 		if (message.getHeader().equalsIgnoreCase("register-username")) {
-			
+
 			String input = message.getBody();
 			System.out.println(input);
 
@@ -22,7 +24,7 @@ public class RegisterAction  implements Action {
 				reply.setSender("system");
 				reply.setBody("Welcome " + input + "! Please enter your desired password.");
 				reply.setHeader("register-password");
-				
+
 				// set username in member to remember
 				user.setUsername(input);
 			}
@@ -40,11 +42,22 @@ public class RegisterAction  implements Action {
 
 			if (message.getBody().length()>0){
 				user.persistUser(message.getBody());
-				// authenticate user by placing object into session
-				user.getSession().setAttribute("user", user.getUser());
 
-				new PartnerlessAction().perform(user, message);
-				return;				
+				boolean authenticate = true;
+				try {
+					user.updateFieldsFromDB();
+				} catch (DAOException e) {
+
+					authenticate = false;
+					e.printStackTrace();
+				}
+				if (authenticate) {
+					// authenticate user by placing object into session
+					user.getSession().setAttribute("user", user.getUser());
+
+					new PartnerlessAction().perform(user, message);
+					return;				
+				}
 			}
 			else {
 				// password was empty

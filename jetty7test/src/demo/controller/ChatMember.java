@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
@@ -84,6 +86,10 @@ public class ChatMember {
 
 	public void setUsername(String name) {
 		user.setUsername(name);
+	}
+	
+	public void updateFieldsFromDB() throws DAOException {
+		user = userDAO.lookup(user.getUsername());
 	}
 
 	public boolean persistUser(String password) {
@@ -216,4 +222,30 @@ public class ChatMember {
 	public User getUser() {
 		return user;
 	}
+	
+	public String fixBadChars(String s) {
+		if (s == null || s.length() == 0) return s;
+		
+		Pattern p = Pattern.compile("[<>\"&]");
+        Matcher m = p.matcher(s);
+        StringBuffer b = null;
+        while (m.find()) {
+            if (b == null) b = new StringBuffer();
+            switch (s.charAt(m.start())) {
+                case '<':  m.appendReplacement(b,"&lt;");
+                           break;
+                case '>':  m.appendReplacement(b,"&gt;");
+                           break;
+                case '&':  m.appendReplacement(b,"&amp;");
+                		   break;
+                case '"':  m.appendReplacement(b,"&quot;");
+                           break;
+                default:   m.appendReplacement(b,"&#"+((int)s.charAt(m.start()))+';');
+            }
+        }
+        
+        if (b == null) return s;
+        m.appendTail(b);
+        return b.toString();
+    }
 }

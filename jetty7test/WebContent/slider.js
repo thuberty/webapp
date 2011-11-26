@@ -8,12 +8,15 @@
 		min: -3,
 		max: 3,
 		step: 1,
-		create: function(){},
+		slide: function(event, ui) {resetSlider(object);},
 		start: function(event, ui) {resetSlider(object);},
 		change: function(event, ui) {resetSlider(object);},
 		stop: function(event, ui) { 
-			alert($( object ).slider( "option", "value" ));
-			destroySlider(object);
+			if ($( object ).slider( "option", "value" )!="Object") {
+				preferenceAction(object, $( object ).slider( "option", "value" ));
+				alert($( object ).slider( "option", "value" ));
+				destroySlider(object);
+			}
 		}
 	});
 	slider = object;

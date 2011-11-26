@@ -1,5 +1,7 @@
 package demo.controller;
 
+import org.mybeans.dao.DAOException;
+
 import demo.model.User;
 import demo.model.UserDAO;
 
@@ -42,20 +44,29 @@ public class LoginAction implements Action {
 		else if (message.getHeader().equalsIgnoreCase("login-password")) {
 			// check password match
 			if (user.passwordMatches(message.getBody())) {
-				
-				// authenticate user by placing object into session
-				user.getSession().setAttribute("user", user.getUser());
+				boolean authenticate = true;
+				try {
+					user.updateFieldsFromDB();
+				} catch (DAOException e) {
 
-				new PartnerlessAction().perform(user, message);
-				return;
-				
-			} else {
-				// password was invalid
-				reply.setSender("system");
-				reply.setBody("Please begin again with your username.");
-				reply.setHeader("login-username");
-				reply.addError("invalid password");
-			}
+					authenticate = false;
+					e.printStackTrace();
+				}
+				if (authenticate) {
+					// authenticate user by placing object into session
+					user.getSession().setAttribute("user", user.getUser());
+
+					new PartnerlessAction().perform(user, message);
+					return;
+				}
+
+			} 
+			// password was invalid
+			reply.setSender("system");
+			reply.setBody("Please begin again with your username.");
+			reply.setHeader("login-username");
+			reply.addError("invalid password");
+
 		}
 
 		// send reply to user

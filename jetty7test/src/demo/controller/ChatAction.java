@@ -37,6 +37,8 @@ public class ChatAction implements Action {
 	}
 	
 	private String identifyPreferables(String msg) {
+		if (msg == null) return msg;
+		
 		// get instance of wordnet
 		WordNetDatabase database = WordNetDatabase.getFileInstance();
 	
@@ -50,16 +52,20 @@ public class ChatAction implements Action {
 				// lookup if any form of word is noun or exact form is verb
 	    	    Synset[] nounSynsets = database.getSynsets(word, SynsetType.NOUN, true);
 	    	    Synset[] verbSynsets = database.getSynsets(word, SynsetType.VERB, false);
-	    	    // check if word or derivative can be noun, but exact form not a verb
+	    	    // check if word or derivative can be noun, but exact form not a verb	    	    
+	    	    Preferable preferable = new Preferable();
+    	    	preferable.setTerm(word);
+    	    	try {
+    	    		Preferable lookahead = ChatMember.getPreferenceDAO().lookupPreferable(preferable);
+    	    		if(lookahead != null) preferable = lookahead;
+    	    		else ChatMember.getPreferenceDAO().create(preferable);
+				} catch (MyDAOException e) {
+					System.out.println(e);
+				}
+	    	    int pid = preferable.getPid();
 	    	    if (nounSynsets.length > 0 && verbSynsets.length == 0) {
-	    	    	newBody = newBody.replace(word, "<div id='" + word + "', onmouseover='makeSlider(\"#" + word + "\");', onmouseout='removeSlider(\"#" + word + "\");'>" + word + "</div>");
-	    	    	Preferable preferable = new Preferable();
-	    	    	preferable.setTerm(word);
-	    	    	try {
-						ChatMember.getPreferenceDAO().create(preferable);
-					} catch (MyDAOException e) {
-						System.out.println(e);
-					}
+	    	    	newBody = newBody.replace(word, "<span class=\"likeable\", id='" + pid + "', onmouseover='makeSlider(\"#" + pid + "\");', onmouseout='removeSlider(\"#" + pid + "\");'>" + word + "</span>");
+	    	    	
 	    	    }
 			}
 		}

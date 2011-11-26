@@ -40,10 +40,17 @@ var room = {
 	send : function(user, message) {
 		user = user.replace(':', '_');
 		
+		if (message == "test") {
+			preferenceAction(3, 3);
+		}
+		
 		var data = {sender:user, body:message, header:currentMessageType};
 		
-		if (this._ws)
-			this._ws.send($.toJSON(data));
+		if (this._ws) this._ws.send($.toJSON(data));
+	},
+	
+	sendRaw : function(data) {
+		if (this._ws) this._ws.send(data);
 	},
 
 	chat : function(text) {

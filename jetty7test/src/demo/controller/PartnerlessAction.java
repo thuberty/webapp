@@ -1,9 +1,5 @@
 package demo.controller;
 
-import edu.smu.tspell.wordnet.Synset;
-import edu.smu.tspell.wordnet.SynsetType;
-import edu.smu.tspell.wordnet.WordNetDatabase;
-
 
 /**
  * Action taken when a member has no chat partner.

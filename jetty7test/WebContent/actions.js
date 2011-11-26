@@ -53,3 +53,8 @@ function partnerAction(msg) {
 	$('#phrase').prop('disabled', '');
 	renderMessageSystem(msg);
 }
+
+function preferenceAction(pid, preference) {
+	var data = {sender:pid, body:preference, header:'preference'};
+	room.sendRaw($.toJSON(data));
+}
