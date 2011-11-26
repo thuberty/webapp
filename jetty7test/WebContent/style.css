@@ -8,6 +8,7 @@ body {
 
 h1 {
 	font-size:24px;
+	float:left;
 }
 
 span#block1 {
@@ -75,6 +76,28 @@ div#top {
 	display:block;
 	background:#f5f5f5;
 	overflow:hidden;
+}
+
+div#header {
+	float:right;
+	margin:10px;
+}
+
+div#header a {
+	color:#4ECDC4;
+	text-decoration:none;
+}
+
+div#header a:hover {
+	color:#C44D58;
+	text-decoration:none;
+}
+
+div#slogan {
+	float:right;
+	margin:10px;
+	clear:right;
+	font-weight:bold;
 }
 
 div#bottom {

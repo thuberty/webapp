@@ -40,10 +40,6 @@ var room = {
 	send : function(user, message) {
 		user = user.replace(':', '_');
 		
-		if (message == "test") {
-			cloudSendAction();
-		}
-		
 		var data = {sender:user, body:message, header:currentMessageType};
 		
 		if (this._ws) this._ws.send($.toJSON(data));
@@ -100,6 +96,9 @@ var room = {
 			case 'cloud':
 				cloudReceiveAction(msg);
 				break;
+			case 'help':
+				helpReceiveAction(msg);
+				break;
 			default: return; // drop message if unknown type
 			}
 		}
@@ -124,5 +123,7 @@ $(document).ready(function() {
 	$(window).resize(function() {
 		  $('#chatarea').height($(window).height() - 240);
 	});
+	$("#get-preferences").click(function(event) { cloudSendAction(); return false;});
+	$("#get-help").click(function(event) { helpSendAction(); return false;});
 });
       

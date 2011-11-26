@@ -65,7 +65,14 @@ function cloudSendAction() {
 }
 
 function cloudReceiveAction(msg) {
-	$('#phrase').prop('type', 'text');
-	$('#phrase').prop('disabled', '');
+	renderMessageSystem(msg);
+}
+
+function helpSendAction() {
+	var data = {sender:'', body:'', header:'help'};
+	room.sendRaw($.toJSON(data));
+}
+
+function helpReceiveAction(msg) {
 	renderMessageSystem(msg);
 }

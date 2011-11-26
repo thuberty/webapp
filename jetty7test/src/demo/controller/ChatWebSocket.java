@@ -72,6 +72,21 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 		message.escapeHTML();
 		
 		//----------------------------------------------
+		// This is a request for all user's preferences
+		//----------------------------------------------
+		if (message.getHeader().equalsIgnoreCase("cloud")) {
+			new CloudAction().perform(member, message);
+			return;
+		}
+		//----------------------------------------------
+		// This is a request for help documentation
+		//----------------------------------------------
+		if (message.getHeader().equalsIgnoreCase("help")) {
+			new HelpAction().perform(member, message);
+			return;
+		}
+		
+		//----------------------------------------------
 		// Member not authenticated
 		//----------------------------------------------
 		if (!member.isAuthenticated()) {
@@ -101,13 +116,6 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 			//----------------------------------------------
 			if (message.getHeader().equalsIgnoreCase("preference")) {
 				new PreferAction().perform(member, message);
-				return;
-			}
-			//----------------------------------------------
-			// This is a request for all user's preferences
-			//----------------------------------------------
-			if (message.getHeader().equalsIgnoreCase("cloud")) {
-				new CloudAction().perform(member, message);
 				return;
 			}
 			//----------------------------------------------
