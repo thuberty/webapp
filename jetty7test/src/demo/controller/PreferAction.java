@@ -17,6 +17,12 @@ public class PreferAction implements Action {
 			}
 			
 			preference = Integer.parseInt(message.getBody());
+			
+			if (preference < -2 || preference > 2) {
+				// forged preference, ignore request
+				return;
+			}
+			
 			Preferable preferable = new Preferable();
 			preferable.setPid(pid);
 			preferable.setPreference(preference);
