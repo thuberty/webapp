@@ -8,6 +8,8 @@ public class PreferAction implements Action {
 		
 		System.out.println("prefer action");
 		
+		System.out.println("prefer action");
+		
 		
 			pid = Integer.parseInt(message.getSender().replaceFirst("#", ""));
 			preference = Integer.parseInt(message.getBody());
