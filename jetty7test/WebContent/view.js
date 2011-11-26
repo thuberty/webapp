@@ -65,3 +65,16 @@ function renderErrorMessages(errors) {
 	chat.children('.incoming').hide();
 	$("#chatarea").prop({ scrollTop: $("#chatarea").prop("scrollHeight") });
 }
+
+function renderMessageHelp(msg) {
+	var output = '<div class="item incoming">';
+	output += '<div class="help">' + msg.body + '</div>';
+	output += '<br/></div>';
+	
+	var chat = $('#chat');
+	chat.append(output);
+	chat.children('.incoming').fadeIn();
+	chat.children('.incoming').removeClass('incoming');
+	chat.children('.incoming').hide();
+	$("#chatarea").prop({ scrollTop: $("#chatarea").prop("scrollHeight") });
+}

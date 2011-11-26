@@ -227,6 +227,11 @@ span.cloud-3 {
 	font-size:21px
 }
 
+div.help {
+	padding:10px;
+	border:1px solid #4ECDC4;
+}
+
 /* Turn on a 13x13 scrollbar */
 ::-webkit-scrollbar {
     width: 13px;

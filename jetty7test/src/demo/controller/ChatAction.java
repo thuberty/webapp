@@ -70,7 +70,7 @@ public class ChatAction implements Action {
 		    	    	continue;
 		    	    }
 		    	    else {
-		    	    	newBody = newBody.replace(word, "<span class=\"likeable\" id='" + pid + "' onmouseover='makeSlider(\"#" + pid + "\");' onmouseout='removeSlider(\"#" + pid + "\");'>" + word + "</span>");
+		    	    	newBody = newBody.replaceFirst(word, "<span class=\"likeable\" id='" + pid + "' onmouseover='makeSlider(\"#" + pid + "\");' onmouseout='removeSlider(\"#" + pid + "\");'>" + word + "</span>");
 		    	    	user.getPreferables().add(pid);
 		    	    }
 	    	    }

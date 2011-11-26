@@ -25,7 +25,7 @@ public class CloudAction implements Action {
 				
 				reply = new Message();
 				
-				String output = "My preferences: ";
+				String output = "<strong>My preferences:</strong> ";
 				for (Preferable preferable : preferables) {
 					output += "<span class=\"cloud-" + preferable.getPreference() + "\">" + preferable.getTerm() + "</span> ";
 				}

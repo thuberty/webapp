@@ -60,7 +60,9 @@ var room = {
 			var msg = jQuery.parseJSON(m.data);
 			
 			// track current transaction type
-			currentMessageType = msg.header;
+			if (msg.header != 'help' && msg.header != 'cloud') {
+				currentMessageType = msg.header;
+			}
 			
 			renderErrorMessages(msg.errors);
 			

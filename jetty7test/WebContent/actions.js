@@ -65,7 +65,7 @@ function cloudSendAction() {
 }
 
 function cloudReceiveAction(msg) {
-	renderMessageSystem(msg);
+	renderMessageHelp(msg);
 }
 
 function helpSendAction() {
@@ -74,5 +74,5 @@ function helpSendAction() {
 }
 
 function helpReceiveAction(msg) {
-	renderMessageSystem(msg);
+	renderMessageHelp(msg);
 }
