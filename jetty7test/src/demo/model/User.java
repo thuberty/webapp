@@ -32,4 +32,10 @@ public class User implements Comparable<User>{
 	public int compareTo(User arg0) {
 		return this.getUid() - arg0.getUid();
 	}
+	public boolean equals(Object o) {
+		if (o instanceof User) {
+			return compareTo((User)o) == 0;
+		}
+		return false;
+	}
 }

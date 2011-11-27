@@ -71,6 +71,11 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 		// prevent XSS, etc.
 		message.escapeHTML();
 		
+		if (message.getHeader() == null || message.getBody() == null || message.getSender() == null) {
+			// must be forged
+			return;
+		}
+		
 		//----------------------------------------------
 		// This is a request for all user's preferences
 		//----------------------------------------------
@@ -85,13 +90,21 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 			new HelpAction().perform(member, message);
 			return;
 		}
+		//----------------------------------------------
+		// This is a request to logout
+		//----------------------------------------------
+		if (message.getHeader().equalsIgnoreCase("logout")) {
+			new LogoutAction().perform(member, message);
+			return;
+		}
 		
 		//----------------------------------------------
 		// Member not authenticated
 		//----------------------------------------------
 		if (!member.isAuthenticated()) {
+			System.out.println("not authenticated");
 			//user is responding to register or login prompt
-			if(message.getHeader().equals("register-login")){
+			if (message.getHeader().equals("register-login")){
 				if (message.getBody().trim().equalsIgnoreCase("login"))
 					new LoginPromptAction().perform(member, message);
 				else if (message.getBody().trim().equalsIgnoreCase("register"))
@@ -123,13 +136,19 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 			//----------------------------------------------
 			if (member.getPartner() == null) {
 				new PartnerlessAction().perform(member, message);
+				return;
 			}
 			//----------------------------------------------
 			// Member has a partner
 			//----------------------------------------------
-			else {
+			if (data != null) {
 				new ChatAction().perform(member, message);
+				return;
 			}
+			// default in case of new session or forged
+			message.setHeader("chat");
+			message.setBody("You've created a duplicate window and may continue chatting.");
+			member.sendMessage(message);
 		}
 	}
 

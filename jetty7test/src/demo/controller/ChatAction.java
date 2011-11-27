@@ -1,3 +1,11 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Chat Action
+ */
+
 package demo.controller;
 
 import demo.model.MyDAOException;
@@ -70,7 +78,7 @@ public class ChatAction implements Action {
 		    	    	continue;
 		    	    }
 		    	    else {
-		    	    	newBody = newBody.replaceFirst(word, "<span class=\"likeable\" id='" + pid + "' onmouseover='makeSlider(\"#" + pid + "\");' onmouseout='removeSlider(\"#" + pid + "\");'>" + word + "</span>");
+		    	    	newBody = newBody.replaceFirst(word, "<span class=\"likeable\" id='" + pid + "' onmouseover='makeSlider(\"#" + pid + "\");' onmouseout='removeSlider(\"#" + pid + "\");'>" + word + " </span>");
 		    	    	user.getPreferables().add(pid);
 		    	    }
 	    	    }

@@ -37,11 +37,11 @@
   function colorSlider(object) {
 	  var color = "";
 	  switch ($(object).slider("value")) {
-	  	case -2: color = "#980000"; break;
-	  	case -1: color = "#FF3030"; break;
-	  	case 0: color = "#000"; break;
-	  	case 1: color = "#9ED54C"; break;
-	  	case 2: color = "#59A80F"; break;
+	  	case -2: color = "#A5B1BB"; break;
+	  	case -1: color = "#798A9A"; break;
+	  	case 0: color = "#556270"; break;
+	  	case 1: color = "#353A46"; break;
+	  	case 2: color = "#14161A"; break;
 	  	default: color = "";
 	  }
 	  if (color != "") {

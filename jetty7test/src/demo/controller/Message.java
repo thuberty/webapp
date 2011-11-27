@@ -32,6 +32,7 @@ public class Message {
 		if (defaultMessage == null) {
 			defaultMessage = new Message();
 			defaultMessage.setBody("");
+			defaultMessage.setSender("system");
 			defaultMessage.setHeader("register-login");
 		}
 		return defaultMessage;

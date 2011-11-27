@@ -60,7 +60,7 @@ var room = {
 			var msg = jQuery.parseJSON(m.data);
 			
 			// track current transaction type
-			if (msg.header != 'help' && msg.header != 'cloud') {
+			if (msg.header != 'cloud') {
 				currentMessageType = msg.header;
 			}
 			
@@ -69,30 +69,48 @@ var room = {
 			// dispatch to appropriate action to act on incoming message
 			switch (msg.header) {
 			case 'register-login':
+				loggedIn = false;
+				hasPartner = false;
 				registerLoginAction(msg);
 			    break;
 			case 'register-username':
+				loggedIn = false;
+				hasPartner = false;
 				registerUsernameAction(msg);
 				break;
 			case 'register-password': 
+				loggedIn = false;
+				hasPartner = false;
 				registerPasswordAction(msg); 
 				break;
 			case 'login-username': 
+				loggedIn = false;
+				hasPartner = false;
 				loginUsernameAction(msg); 
 				break;
 			case 'login-password': 
+				loggedIn = false;
+				hasPartner = false;
 				loginPasswordAction(msg); 
 				break;
-			case 'echo': 
+			case 'echo':
+				loggedIn = true;
+				hasPartner = true;
 				echoAction(msg); 
 				break;
-			case 'chat': 
+			case 'chat':
+				loggedIn = true;
+				hasPartner = true;
 				chatAction(msg);
 				break;
-			case 'waiting': 
+			case 'waiting':
+				loggedIn = true;
+				hasPartner = false;
 				waitingAction(msg);
 				break;
 			case 'partner':
+				loggedIn = true;
+				hasPartner = true;
 				partnerAction(msg);
 				break;
 			case 'cloud':
@@ -102,6 +120,20 @@ var room = {
 				helpReceiveAction(msg);
 				break;
 			default: return; // drop message if unknown type
+			}
+			
+			if (loggedIn) {
+				$("#logout").show();
+			}
+			else {
+				$("#logout").hide();
+			}
+			
+			if (hasPartner) {
+				$("#newPartner").show();
+			}
+			else {
+				$("#newPartner").hide();
 			}
 		}
 	},
@@ -126,6 +158,9 @@ $(document).ready(function() {
 		  $('#chatarea').height($(window).height() - 240);
 	});
 	$("#get-preferences").click(function(event) { cloudSendAction(); return false;});
-	$("#get-help").click(function(event) { helpSendAction(); return false;});
+	$("#get-help").click(function(event) { $("#help").dialog('open'); return false;});
+	$("#newPartner").click(function(event) { location.reload(); return false;});
+	$("#logout").click(function(event) { logoutAction(); location.reload(); return false;});
+	$("#help").dialog({title:'HELP', height:400, minWidth:900, autoOpen: false, resizable:false});
 });
       

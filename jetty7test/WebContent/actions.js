@@ -76,3 +76,8 @@ function helpSendAction() {
 function helpReceiveAction(msg) {
 	renderMessageHelp(msg);
 }
+
+function logoutAction() {
+	var data = {sender:'', body:'', header:'logout'};
+	room.sendRaw($.toJSON(data));
+}

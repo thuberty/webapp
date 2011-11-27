@@ -1,19 +1,21 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Chat Member
+ */
+
 package demo.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpSession;
 
-import org.apache.jasper.runtime.PerThreadTagHandlerPool;
 import org.mybeans.dao.DAOException;
 
 import demo.model.Model;
@@ -193,12 +195,28 @@ public class ChatMember {
 	public boolean isAuthenticated() {
 		return (session.getAttribute("user") != null);
 	}
+	
+	public void logout() {
+		Message message = new Message();
+		message.setBody("You logged out in another window. Please refresh your browser.");
+		message.setHeader("waiting");
+		message.setSender("system");
+		sendMessage(message);
+		session.setAttribute("user", null);
+		if (partner != null) {
+			partner.disconnectPartner();
+			setPartner(null);
+		}
+		user = new User();
+		members.remove(session.getId());
+	}
 
 	/**
 	 * Sends message to all sockets belonging to this chat member
 	 */
-	public void sendMessage(Message message) {
+	public void sendMessage(Message message) {		
 		for (ChatWebSocket socket : sockets) {
+			System.out.println(socket + " " + message);
 			socket.send(message);
 		}
 	}
@@ -214,8 +232,14 @@ public class ChatMember {
 			int available = 0;
 			ChatMember partner = null;
 			int maxBonding = Integer.MIN_VALUE;
+			
+			for(String s : members.keySet()) {
+				System.out.println(s + " " + members.get(s).getUsername());
+			}
+			
 			for (ChatMember member : members.values()) {
 				if (member.equals(this)) continue; // exclude this member
+				if (member.getUser().equals(this.getUser())) continue; // exclude other instances of member
 				if (member.getPartner() != null) continue; // exclude members already paired
 				if (!member.isAuthenticated()) continue; // exclude non-authenticated members
 				available++;
@@ -241,8 +265,6 @@ public class ChatMember {
 			partner.setPartner(this);
 			return maxBonding;
 		}
-
-
 	}
 
 	/**

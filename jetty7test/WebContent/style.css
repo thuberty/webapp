@@ -86,6 +86,8 @@ div#header {
 div#header a {
 	color:#4ECDC4;
 	text-decoration:none;
+	float:right;
+	margin-left:10px;
 }
 
 div#header a:hover {
@@ -96,6 +98,7 @@ div#header a:hover {
 div#slogan {
 	float:right;
 	margin:10px;
+	margin-top:20px;
 	clear:right;
 	font-weight:bold;
 }
@@ -185,7 +188,7 @@ span.error {
 span.likeable {
 	font-size:16px;
 	font-family:'Terminal Dosis',sans-serif;
-	color:#000;
+	font-weight:bold;
 }
 
 span.likeable:hover {
@@ -234,6 +237,11 @@ span.cloud-3 {
 div.help {
 	padding:10px;
 	border:1px solid #4ECDC4;
+}
+
+div#help {
+	font-family:'Terminal Dosis',sans-serif;
+	font-size:16px;
 }
 
 /* Turn on a 13x13 scrollbar */
