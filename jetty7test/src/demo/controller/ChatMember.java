@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.jasper.runtime.PerThreadTagHandlerPool;
 import org.mybeans.dao.DAOException;
 
 import demo.model.Model;
@@ -67,7 +68,7 @@ public class ChatMember {
 		userDAO = model.getUserDAO();
 		preferenceDAO = model.getPreferenceDAO();
 	}
-	
+
 	public static PreferenceDAO getPreferenceDAO() {
 		return preferenceDAO;
 	}
@@ -95,7 +96,7 @@ public class ChatMember {
 	public void setUsername(String name) {
 		user.setUsername(name);
 	}
-	
+
 	public void updateFieldsFromDB() throws DAOException {
 		user = userDAO.lookup(user.getUsername());
 	}
@@ -166,7 +167,7 @@ public class ChatMember {
 		if (sockets.isEmpty()) {
 			synchronized(members) {
 				members.remove(session.getId());
-				
+
 				// inform partner of non-existence of this user
 				if (partner != null) {
 					partner.disconnectPartner();
@@ -175,7 +176,7 @@ public class ChatMember {
 			}
 		}
 	}
-	
+
 	public void disconnectPartner() {
 		setPartner(null);
 		Message message = new Message();
@@ -234,16 +235,16 @@ public class ChatMember {
 			}
 			// no chat members are available
 			if (partner == null || available < 2) return null;
-			
+
 			//a partner was found
 			this.setPartner(partner);
 			partner.setPartner(this);
 			return maxBonding;
 		}
 
-		
+
 	}
-	
+
 	/**
 	 * returns a representation of the difference between two chatmember's preferences,
 	 * more positive meaning more alike, more negative meaning more unlike
@@ -258,7 +259,7 @@ public class ChatMember {
 		ourList = intersection(ourList, hisList);
 		System.out.println("overlapping preferences:"+ourList.size());
 		int bond = 0;
-		
+
 		for (Preferable pref : ourList) {
 			Preferable hisPref = hisList.get(hisList.indexOf((pref)));
 			System.out.println("pref:"+pref.getPid()+": "+pref.getPreference()+"/"+hisPref.getPreference());
@@ -267,7 +268,7 @@ public class ChatMember {
 		System.out.println(user.getUsername() +" / " + him.getUsername() + "=" + bond);
 		return bond;
 	}
-	
+
 	/**
 	 * Intersects two Preference lists
 	 * @param a
@@ -277,25 +278,61 @@ public class ChatMember {
 	private static List<Preferable> intersection(List<Preferable> a, List<Preferable> b) {
 		ArrayList<Preferable> result = new ArrayList<Preferable>();
 		HashSet<Preferable> compare = new HashSet<Preferable>(b);
-		
+
 		for (Preferable p : a) {
 			if (compare.contains(p)) result.add(p);
 		}
 		return result;
-		
+
 	}
 
 
 	public User getUser() {
 		return user;
 	}
-	
+
 	public Set<Integer> getPreferables() {
 		return preferables;
 	}
 
 
+	/**
+	 * return the list of overlapping topics between two users
+	 * @return topics that our user and our partner's user like equally
+	 */
 	public String getTopics() {
-		return "NOTHING";
+		List<Preferable> preferences;
+		try {
+			preferences = intersection(preferenceDAO.getUserPreferences(user.getUid()),
+					preferenceDAO.getUserPreferences(partner.getUser().getUid()));
+		} catch (MyDAOException e) {
+			// TODO Auto-generated catch block
+			preferences = new ArrayList<Preferable>();
+		}
+		String topics = "";
+		int i = 0;
+		for (Preferable p : preferences) {
+			Preferable term = null;
+			try {
+				p.setUser(user);
+				//our preference for this topic
+				int ourpref = preferenceDAO.lookupUserPreference(p);
+				p.setUser(partner.getUser());
+				//our partner's preference for this topic
+				int hispref = preferenceDAO.lookupUserPreference(p);
+				if (ourpref == hispref && hispref > 0)
+					term = preferenceDAO.lookupPreferable(p);
+			} catch (MyDAOException e) {
+				// TODO Auto-generated catch block
+				term = null;
+			}
+			if (term != null && term.getTerm() != null)
+				if (i == 0)
+					topics = topics.concat(" " + term.getTerm());
+				else
+					topics = topics.concat(", or " + term.getTerm());
+			i++;
+		}
+		return topics;
 	}
 }

@@ -23,9 +23,14 @@ public class PartnerlessAction implements Action {
 		else {
 			// inform user of matched partner
 			reply.setSender("system");
+			//suggest talking points
+			String topicsSuggest = user.getTopics();
+			if (topicsSuggest.length()>0) 
+				topicsSuggest = "Why don't you chat about " + topicsSuggest +"?";
+			
 			reply.setBody(user.getPartner().getUsername() + " is your new chat partner!" 
 			+ "\n Your compatability rating is:" + (100+partnerFound) +". " + 
-			"why don't you chat about " + user.getTopics());
+			topicsSuggest);
 			reply.setHeader("partner");
 
 			// inform partner of match
