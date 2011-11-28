@@ -1,3 +1,11 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Login Prompt Action
+ */
+
 package demo.controller;
 
 public class LoginPromptAction implements Action{

@@ -1,5 +1,16 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Preferable
+ */
+
 package demo.model;
 
+/*
+ * Bean representing a preferable - an item that a user can 'vote' on their level of interest
+ */
 public class Preferable implements Comparable<Preferable> {
 	private String term;
 	private int pid;

@@ -1,3 +1,11 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * User DAO
+ */
+
 package demo.model;
 
 import java.util.Arrays;
@@ -8,6 +16,9 @@ import org.mybeans.factory.MatchArg;
 import org.mybeans.factory.RollbackException;
 import org.mybeans.factory.Transaction;
 
+/*
+ * User dao that handles authentication logic and persistance in db
+ */
 public class UserDAO extends GenericDAO<User> {
 	public UserDAO(String appName) {
 		super(User.class, appName+"_users", "uid");

@@ -1,3 +1,11 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Preference DAO
+ */
+
 package demo.model;
 
 import java.sql.Connection;
@@ -10,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Data access object for preference tables in db and operations related to preferables.
  */
 public class PreferenceDAO {
 	private List<Connection> connectionPool = new ArrayList<Connection>();
@@ -178,6 +187,9 @@ public class PreferenceDAO {
 		}
 	}
 
+	/*
+	 * Looks up preferable in db and fills in either missing pid or term
+	 */
 	public Preferable lookupPreferable(Preferable preferable) throws MyDAOException {
 		Connection con = null;
 		Preferable newPreferable;
@@ -220,6 +232,9 @@ public class PreferenceDAO {
 		}
 	}
 
+	/*
+	 * returns a users preference towards a certain perferable
+	 */
 	public Integer lookupUserPreference(Preferable preferable) throws MyDAOException {
 		Connection con = null;
 		Integer result = null;
@@ -251,6 +266,9 @@ public class PreferenceDAO {
 		}
 	}
 
+	/*
+	 * Commits a preferable to the db, either updating it or inserting it for the user
+	 */
 	public void setPreference(Preferable preferable) throws MyDAOException {
 		Connection con = null;
 

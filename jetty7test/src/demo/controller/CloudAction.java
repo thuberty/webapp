@@ -1,3 +1,11 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Cloud action
+ */
+
 package demo.controller;
 
 import java.util.List;
@@ -5,6 +13,11 @@ import java.util.List;
 import demo.model.MyDAOException;
 import demo.model.Preferable;
 
+/**
+ * Action that responds to requests to retrieve user preferences
+ * 
+ * Replies to client with a tag cloud representation of all preferences saved in db for user
+ */
 public class CloudAction implements Action {
 	public void perform(ChatMember user, Message message) {
 		Message reply = null;

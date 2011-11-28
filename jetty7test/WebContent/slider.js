@@ -1,3 +1,5 @@
+  // Fall 2011 - 15-437 Tyler Huberty, Jack Phelan
+
   slider=null;
   t=null;
   function makeSlider(object){

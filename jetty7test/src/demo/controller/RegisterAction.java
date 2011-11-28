@@ -1,9 +1,20 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Register action
+ */
+
 package demo.controller;
 
 import org.mybeans.dao.DAOException;
 
 import demo.model.User;
 
+/*
+ * Handles user registration
+ */
 public class RegisterAction  implements Action {
 	public void perform(ChatMember user, Message message) {
 		Message reply = new Message();

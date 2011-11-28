@@ -1,3 +1,4 @@
+// Fall 2011 - 15-437 Tyler Huberty, Jack Phelan
 // view layer
 
 function renderMessageMe(msg) {
@@ -15,6 +16,10 @@ function renderMessageMe(msg) {
 }
 
 function renderMessagePartner(msg) {
+	if (msg.sender == 'system') {
+		renderMessageSystem(msg);
+		return;
+	}
 	var output = '<div class="item incoming">';
 	output += '<span class="start-quote partner">&#8220;</span>' + msg.body + '<span class="end-quote partner">&#8221;</span>';
 	output += '<span class="from">-' + msg.sender + '</span>';

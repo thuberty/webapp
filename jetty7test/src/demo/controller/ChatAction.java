@@ -44,6 +44,9 @@ public class ChatAction implements Action {
 		user.getPartner().sendMessage(partnerMessage);
 	}
 	
+	/**
+	 * Helper method that uses WordNet to pick out nouns that can be used as preferable items
+	 */
 	private String identifyPreferables(String msg, ChatMember user) {
 		if (msg == null) return msg;
 		
@@ -60,7 +63,7 @@ public class ChatAction implements Action {
 				// lookup if any form of word is noun or exact form is verb
 	    	    Synset[] nounSynsets = database.getSynsets(word, SynsetType.NOUN, true);
 	    	    Synset[] verbSynsets = database.getSynsets(word, SynsetType.VERB, false);
-	    	 // check if word or derivative can be noun, but exact form not a verb	
+	    	    // check if word or derivative can be noun, but exact form not a verb	
 	    	    if (nounSynsets.length > 0 && verbSynsets.length == 0) {
 		    	    Preferable preferable = new Preferable();
 	    	    	preferable.setTerm(word);

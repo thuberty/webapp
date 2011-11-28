@@ -1,3 +1,11 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Message
+ */
+
 package demo.controller;
 
 import java.util.ArrayList;
@@ -74,6 +82,9 @@ public class Message {
 		this.header = header;
 	}
 	
+	/*
+	 * Public interface to security method below.
+	 */
 	public void escapeHTML() {
 		setBody(escapeHTML(getBody()));
 		setHeader(escapeHTML(getHeader()));

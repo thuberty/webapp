@@ -1,3 +1,5 @@
+// Fall 2011 - 15-437 Tyler Huberty, Jack Phelan
+// js controller
 
 if (!window.WebSocket) {
 	window.WebSocket=window.MozWebSocket;
@@ -115,9 +117,6 @@ var room = {
 				break;
 			case 'cloud':
 				cloudReceiveAction(msg);
-				break;
-			case 'help':
-				helpReceiveAction(msg);
 				break;
 			default: return; // drop message if unknown type
 			}

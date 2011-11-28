@@ -54,7 +54,6 @@ public class ChatMember {
 		preferables = new CopyOnWriteArraySet<Integer>();
 
 		// session may contain data, so load it here
-		// partner = (ChatMember) session.getAttribute("partner");
 		if (isAuthenticated()) {
 			user = ((User)session.getAttribute("user"));
 		}
@@ -103,6 +102,9 @@ public class ChatMember {
 		user = userDAO.lookup(user.getUsername());
 	}
 
+	/**
+	 * Helper method for use during login to persist user
+	 */
 	public boolean persistUser(String password) {
 		synchronized(userDAO) {
 			user.setPassword(password);
@@ -114,6 +116,9 @@ public class ChatMember {
 		}
 	}
 
+	/**
+	 * Helper method for use during login to check availability
+	 */
 	public boolean isAvailable(String name) {
 		synchronized(userDAO) {
 			try {
@@ -196,6 +201,9 @@ public class ChatMember {
 		return (session.getAttribute("user") != null);
 	}
 	
+	/**
+	 * Logs out a user
+	 */
 	public void logout() {
 		Message message = new Message();
 		message.setBody("You logged out in another window. Please refresh your browser.");
@@ -224,7 +232,7 @@ public class ChatMember {
 	/**
 	 * Searches member set for the best match that currently also does not have a partner
 	 * 
-	 * Returns true if a partner is found, false otherwise.
+	 * Returns bonding integer or null if no partner found
 	 */
 	public Integer findPartner() {
 		// thread safe - multiple objects grabbing same partner shouldn't be allowed

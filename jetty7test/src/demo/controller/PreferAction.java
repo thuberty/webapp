@@ -1,7 +1,19 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Prefer action
+ */
+
 package demo.controller;
 
 import demo.model.Preferable;
 
+/**
+ * Handles preference requests - updates to a user's preferences
+ * invoked when a user 'votes' on an interest.
+ */
 public class PreferAction implements Action {
 	public void perform(ChatMember user, Message message) {
 		int pid, preference;

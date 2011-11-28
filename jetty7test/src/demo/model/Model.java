@@ -1,3 +1,11 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Model
+ */
+
 package demo.model;
 
 import javax.servlet.ServletConfig;
@@ -5,6 +13,9 @@ import javax.servlet.ServletException;
 
 import org.mybeans.factory.BeanTable;
 
+/*
+ * Sets up connection to daos and database
+ */
 public class Model {
 	private UserDAO  userDAO;
 	private PreferenceDAO preferenceDAO;

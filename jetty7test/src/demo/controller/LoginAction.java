@@ -1,9 +1,14 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Login action
+ */
+
 package demo.controller;
 
 import org.mybeans.dao.DAOException;
-
-import demo.model.User;
-import demo.model.UserDAO;
 
 /**
  * Login action class - replies to user messages when user is not authenticated

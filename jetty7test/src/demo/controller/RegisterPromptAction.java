@@ -1,5 +1,16 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Register prompt action
+ */
+
 package demo.controller;
 
+/*
+ * Initiates the user registration flow
+ */
 public class RegisterPromptAction implements Action{
 
 	@Override

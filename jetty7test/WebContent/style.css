@@ -1,3 +1,5 @@
+/* Fall 2011 - 15-437 Tyler Huberty, Jack Phelan */
+
 body {
 	background:#fff;
 	padding:0;
@@ -266,13 +268,11 @@ div#help {
 ::-webkit-scrollbar-button:vertical:end:decrement {
     display: none;
 }
- 
-/* Place The scroll down button at the bottom */
+
 ::-webkit-scrollbar-button:vertical:increment {
     display:none;
 }
- 
-/* Place The scroll up button at the up */
+
 ::-webkit-scrollbar-button:vertical:decrement {
     display:none;
 }
@@ -280,24 +280,20 @@ div#help {
 ::-webkit-scrollbar-track:vertical {
 	width:5px;
 }
- 
-/* Top area above thumb and below up button */
+
 ::-webkit-scrollbar-track-piece:vertical:start {
     border: none;
 }
- 
-/* Bottom area below thumb and down button */
+
 ::-webkit-scrollbar-track-piece:vertical:end {
     border: none;
 }
- 
-/* Track below and above */
+
 ::-webkit-scrollbar-track-piece {
     background-color: #fff;
     width:5px;
 }
- 
-/* The thumb itself */
+
 ::-webkit-scrollbar-thumb:vertical {
     width: 5px;
     background-color: #556270;
@@ -306,13 +302,11 @@ div#help {
     width: 5px;
     background-color: #C44D58;
 }
- 
-/* Corner */
+
 ::-webkit-scrollbar-corner:vertical {
     background-color: black;
 }
- 
-/* Resizer */
+
 ::-webkit-scrollbar-resizer:vertical {
     background-color: gray;
 }

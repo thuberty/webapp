@@ -1,3 +1,11 @@
+/**
+ * Fall 2011 - 15-437
+ * Tyler Huberty
+ * Jack Phelan
+ * 
+ * Chat Web Socket
+ */
+
 package demo.controller;
 
 import java.io.IOException;
@@ -81,13 +89,6 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 		//----------------------------------------------
 		if (message.getHeader().equalsIgnoreCase("cloud")) {
 			new CloudAction().perform(member, message);
-			return;
-		}
-		//----------------------------------------------
-		// This is a request for help documentation
-		//----------------------------------------------
-		if (message.getHeader().equalsIgnoreCase("help")) {
-			new HelpAction().perform(member, message);
 			return;
 		}
 		//----------------------------------------------
