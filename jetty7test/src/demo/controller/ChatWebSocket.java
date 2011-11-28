@@ -72,7 +72,7 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 	public void onMessage(String data)
 	{
 		Message message;
-		
+		System.out.println(data);
 		if (data != null) message = (Message) JSONObject.toBean(new JSONObject().fromObject(data), Message.class);
 		else message = Message.getDefaultMessage();
 		
@@ -147,6 +147,8 @@ public class ChatWebSocket implements WebSocket.OnTextMessage
 				return;
 			}
 			// default in case of new session or forged
+			message = new Message();
+			message.setSender("system");
 			message.setHeader("chat");
 			message.setBody("You've created a duplicate window and may continue chatting.");
 			member.sendMessage(message);
